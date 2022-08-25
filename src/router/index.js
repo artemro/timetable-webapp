@@ -1,19 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
 
 const routes = [
   {
     path: '/timetable',
     name: 'Timetable',
-    component: Home
+    component: () => import('../views/Timetable.vue')
   },
   {
-    path: '/timetable/settigns',
-    name: 'Timetable settings',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Settings.vue')
+    path: '/timetable/init',
+    name: 'Init',
+    component: () => import('../views/Init.vue')
   }
 ]
 
@@ -22,4 +18,9 @@ const router = createRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Init' && !localStorage.getItem('timetable-group-id')) 
+    next({ name: 'Init' });
+  else next();
+})
 export default router

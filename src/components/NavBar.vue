@@ -1,0 +1,156 @@
+<template>
+  <header>
+    <button class="date btn btn-primary options" 
+        @click="() => {
+            if (this.$store.state.page)
+             showCalendar = !showCalendar}" v-bind:disabled=!this.$store.state.page>
+      {{ this.formatDate(this.date) }}
+      <div v-if='this.$store.state.page'>
+        <span v-if="!showCalendar" class="material-symbols-sharp"> expand_more</span>
+        <span v-else class="material-symbols-sharp"> expand_less </span>
+      </div>
+    </button>
+    <div v-if="showCalendar && this.$store.state.page" class="date-nav" v-click-outside="() => {this.showCalendar=false}">
+      <DatePicker class="calendar" v-model="date" />
+    </div>
+    <button class="btn btn-primary options" @click="date = new Date()" v-bind:disabled=!this.$store.state.page>
+      <span class="material-symbols-sharp"> today </span>
+    </button>
+    <button class="btn btn-primary options" 
+        @click="() => {
+            if (this.$store.state.page)
+             showOptions = !showOptions; }" v-bind:disabled=!this.$store.state.page>
+      <span class="material-symbols-sharp"> more_vert </span>
+    </button>
+    <div v-if="showOptions && this.$store.state.page" class="options-nav" v-click-outside="() => {this.showOptions=false}">
+        <button class="option" @click="toInit()">
+            Изменить группу
+        </button>
+    </div>
+  </header>
+</template>
+<script>
+import "v-calendar/dist/style.css";
+import vClickOutside from 'click-outside-vue3'
+import { DatePicker } from "v-calendar";
+export default {
+  components: {
+    DatePicker,
+  },
+  directives: {
+      clickOutside: vClickOutside.directive
+    },
+  data() {
+    return {
+        date: this.$store.state.date,
+        showCalendar: false,
+        showOptions: false,
+    };
+  },
+  watch:{
+      date(){
+          this.$store.commit('changeDate', this.date)
+      }
+  },
+  methods: {
+    formatDate(date) {
+      var options = {
+        month: "long",
+        day: "numeric",
+      };
+      return date.toLocaleString("ru", options);
+    },
+    resetOverlays(){
+        console.log(this.showOptions);
+        this.showCalendar = false;
+        this.showOptions = false;
+        
+    },
+    toInit(){
+        this.showCalendar = false;
+        this.showOptions = false;
+        localStorage.setItem('timetable-group-id', ''),
+        this.$router.push("/timetable/init");
+    }
+  },
+};
+</script>
+
+<style scoped>
+header {
+  height: 56px;
+  background-color: var(--bs-primary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  right: 0;
+  gap: 10px;
+  padding: 10px 4%;
+  box-shadow: 0px 2px 2px lightgray;
+}
+.calendar {
+  border: none;
+}
+.date-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  left: 0;
+  top: 0;
+  right: 0;
+  margin-top: 56px;
+  height: min-content;
+  z-index: 1;
+}
+
+.date {
+  color: #fff;
+  background: none;
+  border: none;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  
+}
+.options {
+  color: #fff;
+  background: none;
+  border: none;
+  height: 100%;
+  align-content: center;
+  justify-content: center;
+  
+}
+.options-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  width: 60%;
+  max-width: 300px;
+  top: 0;
+  right: 0;
+  margin-top: 56px;
+  height: min-content;
+  z-index: 1;
+}
+.option {
+  border: none;
+  background-color: #fff;
+  color: black;
+  text-decoration: none;
+  min-height: 40px;
+  padding: 10px;
+}
+.material-symbols-sharp{
+    font-size: 24px;
+}
+</style>
