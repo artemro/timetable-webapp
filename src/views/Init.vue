@@ -9,8 +9,11 @@
           МГУ!
         </p>
         <p>Для просмотра расписания выберите свою группу</p>
-        <select class="form-select form-select-sm mb-3" v-model="groupId">
-          <option selected>Не выбрано</option>
+        <select
+          class="form-select form-select-sm mb-3 group-selector"
+          v-model="groupId"
+        >
+          <option selected value=null>Не выбрано</option>
           <option
             v-for="group in groupList.items"
             :key="group.id"
@@ -19,7 +22,11 @@
             {{ group.number }}
           </option>
         </select>
-        <button type="button" class="btn btn-primary btn-lg save-button" @click="saveGroup">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg save-button"
+          @click="saveGroup"
+        >
           Сохранить
         </button>
       </div>
@@ -32,7 +39,7 @@ export default {
   methods: {
     saveGroup() {
       if (this.groupId) {
-        localStorage.setItem("timetable-group-id", this.groupId),
+        localStorage.setItem("timetable-group-id", this.groupId);
           this.$router.push("/timetable");
       } else {
         alert("Пожалуйста, выберите номер группы!");
@@ -48,6 +55,9 @@ export default {
           json.items.sort(function (a, b) {
             if (a.number.length > b.number.length) {
               return 1;
+            }
+            if (a.number.length < b.number.length) {
+              return -1;
             }
             if (a.number > b.number) {
               return 1;
@@ -100,9 +110,25 @@ h1 {
 p {
   text-align: justify;
 }
-.save-button{
-    background-color: var(--bs-primary);
-    border: none;
+.group-selector:hover {
+  opacity: 0.6;
+  box-shadow: none;
+}
+.group-selector:focus, :active {
+  box-shadow: none;
+  border-width: 1px; 
+  border-color: #ced4da;
+}
+.save-button {
+  background-color: var(--bs-primary);
+  border: none;
+}
+.save-button:hover
+ {
+  opacity: 0.6;
+}
+.save-button:focus, :active{
+  box-shadow: none;
 }
 img {
   width: 40%;
