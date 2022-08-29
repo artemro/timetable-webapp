@@ -1,10 +1,10 @@
 FROM node:16 AS build
 ARG BUILD_MODE
 WORKDIR /app
-ADD ./package.json ./package-lock.json /app/
-RUN npm install
+ADD ./package.json yarn.lock /app/
+RUN corepack enable && yarn install --frozen-lockfile --link-duplicates
 ADD . /app
-RUN npm run build -- --mode ${BUILD_MODE}
+RUN yarn build --mode ${BUILD_MODE}
 
 FROM nginx:1.21
 ADD ./default.conf /etc/nginx/conf.d/default.conf
