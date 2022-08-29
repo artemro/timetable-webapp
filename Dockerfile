@@ -1,12 +1,13 @@
 FROM node:16 AS build
+ARG BUILD_MODE
 WORKDIR /app
 ADD ./package.json ./package-lock.json /app/
 RUN npm install
 ADD . /app
-RUN npm run build
+RUN npm run build -- --mode ${BUILD_MODE}
 
 FROM nginx:1.21
 ADD ./default.conf /etc/nginx/conf.d/default.conf
+ADD ./docker_entrypoint.sh /docker_entrypoint.sh
 COPY --from=build /app/dist /usr/share/nginx/html
-RUN export APPJS_NAME=$(cd /usr/share/nginx/html && ls js/app.*.js) \
-    && sed -i 's|APPJS_NAME|'${APPJS_NAME}'|g' /etc/nginx/conf.d/default.conf
+RUN chmod +x /docker_entrypoint.sh && /docker_entrypoint.sh

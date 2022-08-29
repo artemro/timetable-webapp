@@ -1,8 +1,8 @@
 <template>
-  <div class="init-background">
+  <div class="init-background" :style="{backgroundImage: `url('${bgItem}')`}">
     <div class="container">
       <div class="init">
-        <img src="https://cdn.profcomff.com/app/logo/icon_512x512.png" />
+        <img :src= "logoItem" />
         <h1>Добро пожаловать!</h1>
         <p>
           Наше приложение позволит получить доступ к сервисам для студентов ФФ
@@ -47,8 +47,9 @@ export default {
     },
     loadGroups() {
       var url = new URL(
-        "https://timetable.api.test.profcomff.com/timetable/group/"
-      );
+       `${process.env.VUE_APP_API_TIMETABLE}/timetable/group/`
+      ),  params = {limit: 0, offset: 0}
+      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
       fetch(url)
         .then((response) => response.json())
         .then((json) => {
@@ -75,6 +76,14 @@ export default {
     this.loadGroups();
     this.$store.commit("changePage", this.pageId);
   },
+  computed:{
+    logoItem(){
+      return `${process.env.VUE_APP_CDN}/app/logo/icon_512x512.png`;
+    },
+    bgItem(){
+        return `${process.env.VUE_APP_CDN}/app/background.png`;
+    }
+  },
   data() {
     return {
       pageId: 0,
@@ -89,9 +98,7 @@ export default {
 .init-background {
   width: 100%;
   height: 100vh;
-  padding-top: 66px;
-  padding-bottom: 66px;
-  background-image: url("https://cdn.profcomff.com/app/background.png");
+  /* background-image: url(v-bind(bgItem)); */
   background-repeat: repeat;
   background-size: cover;
   background-clip: padding-box;
@@ -100,9 +107,16 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 10%;
+  padding-top: 66px;
+  padding-bottom: 66px;
   gap: 1em;
   width: 100%;
+  height: 100%;
+}
+.container{
+  height: 100%;
 }
 h1 {
   font-weight: bold;
@@ -133,6 +147,6 @@ p {
 img {
   width: 40%;
   height: auto;
-  max-width: 300px;
+  max-width: 200px;
 }
 </style>

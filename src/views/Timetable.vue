@@ -46,7 +46,7 @@ export default {
       var time_start = new Date(date);
       var time_end = new Date();
       time_end.setDate(time_start.getDate() + 1)
-      var url = new URL(`https://timetable.api.test.profcomff.com/timetable/group/${this.groupId}`),
+      var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/group/${this.groupId}`),
         params = {start: time_start.toISOString().slice(0,10), end: time_end.toISOString().slice(0,10)}
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
       fetch(url)
