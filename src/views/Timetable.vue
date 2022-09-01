@@ -2,10 +2,10 @@
   <div class="timetable">
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
     <div v-else class='container'>  
-      <div class='info'>{{ this.timetable.number }} группа</div>
-      <div class="no-events" v-if="!this.timetable.events.length">мероприятия отсутствуют</div>
+      <div class='info'>{{ this.groupInfo.number }} группа</div>
+      <div class="no-events" v-if="!this.timetable.length">мероприятия отсутствуют</div>
       <ul v-else>
-        <EventRow v-for="lesson of this.timetable.events" :key='lesson.id' :lesson="lesson" />
+        <EventRow v-for="lesson of this.timetable" :key='lesson.id' :lesson="lesson" />
       </ul>
 
     </div>
@@ -20,14 +20,16 @@ export default {
   mounted() {
     this.groupId = localStorage.getItem('timetable-group-id');
     this.$store.commit("changePage", this.pageId);
-    this.loadTimetableOnDate(this.$store.state.date)
+    this.loadGroupInfo();
+    this.loadTimetableOnDate(this.$store.state.date);
   },
   data() {
     return {
       loaded: true,
       pageId: 1,
       groupId: null,
-      timetable: { events: [] },
+      groupInfo: {number:''},
+      timetable: [],
     };
   },
   computed: {
@@ -44,22 +46,36 @@ export default {
     EventRow: EventRow,
   },
   methods: {
-    loadTimetableOnDate(date) {
+    loadGroupInfo(){
+      var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/group/${this.groupId}`);
       this.loaded = false;
+      fetch(url).then(response => response.json())
+        .then(json => {
+          this.groupInfo = json;
+          this.loaded = true;
+        })
+    },
+    loadTimetableOnDate(date) {
       var time_start = new Date(date);
       time_start.setHours(time_start.getHours() - date.getTimezoneOffset()/60)
       console.log(time_start.toISOString())
       var time_end = new Date(time_start);
       time_end.setDate(time_start.getDate() + 1)
-      var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/group/${this.groupId}`),
-        params = { start: time_start.toISOString().slice(0, 10), end: time_end.toISOString().slice(0, 10) }
+      var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/event/`),
+        params = { 
+          start: time_start.toISOString().slice(0, 10), 
+          end: time_end.toISOString().slice(0, 10),
+          limit: 0,
+          offset: 0,
+          group_id: this.groupId }
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-      fetch(url)
-        .then(response => response.json())
+      this.loaded = false;
+      fetch(url).then(response => response.json())
         .then(json => {
-          this.timetable = json;
+          this.timetable = json.items;
           this.loaded = true;
         })
+
     }
   }
 };
