@@ -1,31 +1,32 @@
 <template>
   <header>
-    <button
-      v-if="this.$store.state.page"
-      class="btn btn-primary date options"
-      @click="
-        () => {
-          if (this.$store.state.page) showCalendar = !showCalendar;
-        }
-      "
-    >
-      {{ this.formatDate(this.date) }}
-        <span v-if="!showCalendar" class="material-symbols-sharp">
-          expand_more</span
-        >
-        <span v-else class="material-symbols-sharp"> expand_less </span>
-    </button>
-    <div v-else class="date">Твой ФФ!</div>
-    <div
-      v-if="showCalendar && this.$store.state.page"
-      class="date-nav"
-      v-click-outside="
+    <div class="date" v-click-outside="
         () => {
           this.showCalendar = false;
         }
-      "
-    >
-      <DatePicker class="calendar" v-model="date" />
+      ">
+      <button
+        v-if="this.$store.state.page"
+        class="btn btn-primary date options"
+        @click="
+          () => {
+            if (this.$store.state.page) showCalendar = !showCalendar;
+          }
+        "
+      >
+        {{ this.formatDate(this.date) }}
+          <span v-if="!showCalendar" class="material-symbols-sharp">
+            expand_more
+          </span>
+          <span v-else class="material-symbols-sharp"> expand_less </span>
+      </button>
+      <div v-else class="date">Твой ФФ!</div>
+      <div
+        v-if="showCalendar && this.$store.state.page"
+        class="date-nav"
+      >
+        <DatePicker class="calendar" v-model="date" />
+      </div>
     </div>
     <button
       class="btn btn-primary options"
