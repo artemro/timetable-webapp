@@ -2,7 +2,7 @@
   <div class="init-background" :style="{backgroundImage: `url('${bgItem}')`}">
     <div class="container">
       <div class="init">
-        <img :src= "logoItem" />
+        <img :src= "logoItem" :style="{backgroundColor: '#fff' }"/>
         <h1>Добро пожаловать!</h1>
         <p>
           Наше приложение позволит получить доступ к сервисам для студентов ФФ
@@ -78,7 +78,7 @@ export default {
   },
   computed:{
     logoItem(){
-      return `${process.env.VUE_APP_CDN}/app/logo/icon_512x512.png`;
+      return `${process.env.VUE_APP_CDN}/app/logo/logo_ff.svg`;
     },
     bgItem(){
         return `${process.env.VUE_APP_CDN}/app/background.png`;
