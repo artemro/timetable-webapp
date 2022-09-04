@@ -3,7 +3,7 @@
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
     <div v-else class='container'>  
       <div class='info'>{{ this.groupInfo.number }} группа</div>
-      <div class="no-events" v-if="!this.timetable.length">мероприятия отсутствуют</div>
+      <div class="no-events" v-if="!this.timetable.length">пары отсутствуют</div>
       <ul v-else>
         <EventRow v-for="lesson of this.timetable" :key='lesson.id' :lesson="lesson" />
       </ul>
