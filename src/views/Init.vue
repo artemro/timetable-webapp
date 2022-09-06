@@ -13,7 +13,7 @@
           class="form-select form-select-sm mb-3 group-selector"
           v-model="groupId"
         >
-          <option selected value=null>Не выбрано</option>
+          <option selected value=-1>Не выбрано</option>
           <option
             v-for="group in groupList.items"
             :key="group.id"
@@ -38,7 +38,8 @@
 export default {
   methods: {
     saveGroup() {
-      if (this.groupId) {
+      console.log("groupId:", this.groupId);
+      if (this.groupId && this.groupId != "-1") {
         localStorage.setItem("timetable-group-id", this.groupId);
           this.$router.push("/timetable");
       } else {

@@ -54,7 +54,7 @@ export default{
         align-items: center;
         padding: 11px 11Spx;
         gap: 24px;
-        height: 80px;
+        height: min-content;
         background: #F8F8F8;
 
         /* Inside auto layout */

@@ -79,7 +79,8 @@ export default {
   },
   watch: {
     date() {
-      this.$store.commit("changeDate", this.date);
+      if(this.date)
+        this.$store.commit("changeDate", this.date);
     },
   },
   methods: {
@@ -135,7 +136,7 @@ header {
   right: 0;
   margin-top: 56px;
   height: min-content;
-  z-index: 1;
+  z-index: 100;
 }
 
 .date {
