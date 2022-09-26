@@ -19,8 +19,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Init' && !localStorage.getItem('timetable-group-id')) 
+  if (to.name !== 'Init' && !localStorage.getItem('timetable-group-id') && localStorage.getItem('timetable-group-id') != "-1") 
     next({ name: 'Init' });
   else next();
 })
-export default router
+export default router;

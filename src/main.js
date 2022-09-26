@@ -1,5 +1,4 @@
 import { h, createApp } from 'vue';
-import { SetupCalendar } from 'v-calendar';
 import singleSpaVue from 'single-spa-vue';
 
 import App from './App.vue';
@@ -18,7 +17,6 @@ const vueLifecycles = singleSpaVue({
   handleInstance(app) {
     app.use(router);
     app.use(store);
-    app.use(SetupCalendar);
   },
 });
 

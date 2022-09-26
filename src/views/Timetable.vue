@@ -1,7 +1,7 @@
 <template>
   <div class="timetable">
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
-    <div v-else class='container'>  
+    <div v-else class='container'>
       <div class='info'>{{ this.groupInfo.number }} группа</div>
       <div class="no-events" v-if="!this.timetable.length">пары отсутствуют</div>
       <ul v-else>
@@ -19,7 +19,6 @@ export default {
 
   mounted() {
     this.groupId = localStorage.getItem('timetable-group-id');
-    this.$store.commit("changePage", this.pageId);
     this.loadGroupInfo();
     this.loadTimetableOnDate(this.$store.state.date);
   },
@@ -28,25 +27,15 @@ export default {
       loaded: true,
       pageId: 1,
       groupId: null,
-      groupInfo: {number:''},
+      groupInfo: { number: '' },
       timetable: [],
     };
-  },
-  computed: {
-    choosenDate() {
-      return this.$store.state.date
-    }
-  },
-  watch: {
-    choosenDate(newValue) {
-      this.loadTimetableOnDate(newValue)
-    }
   },
   components: {
     EventRow: EventRow,
   },
   methods: {
-    loadGroupInfo(){
+    loadGroupInfo() {
       var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/group/${this.groupId}`);
       fetch(url).then(response => response.json())
         .then(json => {
@@ -55,17 +44,18 @@ export default {
     },
     loadTimetableOnDate(date) {
       var time_start = new Date(date);
-      time_start.setHours(time_start.getHours() - date.getTimezoneOffset()/60)
+      time_start.setHours(time_start.getHours() - date.getTimezoneOffset() / 60)
       console.log(time_start.toISOString())
       var time_end = new Date(time_start);
       time_end.setDate(time_start.getDate() + 1)
       var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/event/`),
-        params = { 
-          start: time_start.toISOString().slice(0, 10), 
+        params = {
+          start: time_start.toISOString().slice(0, 10),
           end: time_end.toISOString().slice(0, 10),
           limit: 0,
           offset: 0,
-          group_id: this.groupId }
+          group_id: this.groupId
+        }
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
       this.loaded = false;
       fetch(url).then(response => response.json())
@@ -75,8 +65,13 @@ export default {
         })
 
     }
+  },
+  beforeMount() {
+    document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
+    document.addEventListener('change-date', (e) => this.loadTimetableOnDate(e.detail));
   }
 };
+
 </script>
 
 <style scoped>
@@ -136,5 +131,4 @@ ul {
   align-self: stretch;
   flex-grow: 0;
 }
-
 </style>

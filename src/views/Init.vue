@@ -149,5 +149,6 @@ img {
   width: 40%;
   height: auto;
   max-width: 200px;
+  border-radius: 50%;
 }
 </style>
