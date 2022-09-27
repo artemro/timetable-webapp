@@ -100,7 +100,7 @@ ul {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   height: 100%;
   gap: 10px;
 }
