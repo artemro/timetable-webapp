@@ -30,10 +30,14 @@ export default function swipe(el, sett) {
             touch: !!(typeof window.orientation !== "undefined" || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || "ontouchstart" in window || navigator.msMaxTouchPoints || "maxTouchPoints" in window.navigator > 1 || "msMaxTouchPoints" in window.navigator > 1)
         };
 
-
+    function isMobile() {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            return true;
+        } else { return false; }
+    }
     var getSupportedEvents = function() {
-        switch (true) {
-            case support.pointer:
+        switch (isMobile()) {
+            case false:
                 events = {
                     type:   "pointer",
                     start:  "PointerDown",
@@ -49,7 +53,7 @@ export default function swipe(el, sett) {
                     events[value] = (ie10) ? "MS" + events[value] : events[value].toLowerCase();
                 }
                 break;
-            case support.touch:
+            case true:
                 events = {
                     type:   "touch",
                     start:  "touchstart",
@@ -131,6 +135,7 @@ export default function swipe(el, sett) {
 
     // добавление поддерживаемых событий
     var events = getSupportedEvents();
+    console.log(events)
 
     // проверка наличия мыши
     if ((support.pointer && !support.touch) || events.type === "mouse") isMouse = true;

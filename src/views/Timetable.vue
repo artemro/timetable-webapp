@@ -73,9 +73,7 @@ export default {
   beforeMount() {
     document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
     document.addEventListener('change-date', (e) => {
-      console.log(this.date);
       this.date = e.detail.date;
-      console.log(e.detail.date);
       this.loadTimetableOnDate(this.date);
     });
   },
