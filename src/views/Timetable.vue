@@ -14,18 +14,14 @@
 
 <script>
 import EventRow from '@/components/EventRow.vue'
+import swipe from '@/events/swipe'
 export default {
   name: "Timetable",
-
-  mounted() {
-    this.groupId = localStorage.getItem('timetable-group-id');
-    this.loadGroupInfo();
-    this.loadTimetableOnDate(this.$store.state.date);
-  },
   data() {
     return {
       loaded: true,
       pageId: 1,
+      date: new Date(),
       groupId: null,
       groupInfo: { number: '' },
       timetable: [],
@@ -45,7 +41,6 @@ export default {
     loadTimetableOnDate(date) {
       var time_start = new Date(date);
       time_start.setHours(time_start.getHours() - date.getTimezoneOffset() / 60)
-      console.log(time_start.toISOString())
       var time_end = new Date(time_start);
       time_end.setDate(time_start.getDate() + 1)
       var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/event/`),
@@ -64,12 +59,34 @@ export default {
           this.loaded = true;
         })
 
+    },
+    swipeEventHandler(detail) {
+      var nextDate = new Date(this.date)
+      if (detail.dir == 'right')
+        nextDate.setDate(this.date.getDate() + 1);
+      if (detail.dir == 'left')
+        nextDate.setDate(this.date.getDate() - 1);
+      document.dispatchEvent(new CustomEvent('change-main-date', { detail: { date: nextDate } }));
     }
+
   },
   beforeMount() {
     document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
-    document.addEventListener('change-date', (e) => this.loadTimetableOnDate(e.detail));
-  }
+    document.addEventListener('change-date', (e) => {
+      console.log(this.date);
+      this.date = e.detail.date;
+      console.log(e.detail.date);
+      this.loadTimetableOnDate(this.date);
+    });
+  },
+  mounted() {
+    this.groupId = localStorage.getItem('timetable-group-id');
+    this.loadGroupInfo();
+    // вызов функции swipe с предварительными настройками
+    swipe(document, { maxTime: 2000, minTime: 100, maxDist: 300, minDist: 60 });
+    // обработка свайпов
+    document.addEventListener("swipe", (e) => this.swipeEventHandler(e.detail));
+  },
 };
 
 </script>

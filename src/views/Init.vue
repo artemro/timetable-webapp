@@ -41,7 +41,7 @@ export default {
       console.log("groupId:", this.groupId);
       if (this.groupId && this.groupId != "-1") {
         localStorage.setItem("timetable-group-id", this.groupId);
-          this.$router.push("/timetable");
+          this.$router.push({name: 'timetable'});
       } else {
         alert("Пожалуйста, выберите номер группы!");
       }
@@ -75,7 +75,7 @@ export default {
   },
   beforeMount() {
     this.loadGroups();
-    this.$store.commit("changePage", this.pageId);
+    document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
   },
   computed:{
     logoItem(){
@@ -131,7 +131,7 @@ p {
 }
 .group-selector:focus, :active {
   box-shadow: none;
-  border-width: 1px; 
+  border-width: 1px;
   border-color: #ced4da;
 }
 .save-button {

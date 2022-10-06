@@ -2,25 +2,26 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/timetable',
-    name: 'Timetable',
+    path: '/',
+    name: 'timetable',
     component: () => import('../views/Timetable.vue')
   },
   {
-    path: '/timetable/init',
-    name: 'Init',
+    path: '/init',
+    name: 'init',
     component: () => import('../views/Init.vue')
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory('/timetable'),
   routes
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Init' && !localStorage.getItem('timetable-group-id') && localStorage.getItem('timetable-group-id') != "-1") 
-    next({ name: 'Init' });
+  console.log(to, from);
+  if (to.name === 'timetable' && !localStorage.getItem('timetable-group-id') && localStorage.getItem('timetable-group-id') != "-1")
+    next({ name: 'init' });
   else next();
 })
 export default router;
