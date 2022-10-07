@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/',
     name: 'timetable',
-    component: () => import('../views/Timetable.vue')
+    component: () => import('../views/Timetable.vue'),
   },
   {
     path: '/init',
@@ -18,9 +18,4 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.name === 'timetable' && !localStorage.getItem('timetable-group-id') && localStorage.getItem('timetable-group-id') != "-1")
-    next({ name: 'init' });
-  else next();
-})
 export default router;

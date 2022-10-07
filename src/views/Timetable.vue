@@ -14,7 +14,6 @@
 
 <script>
 import EventRow from '@/components/EventRow.vue'
-import swipe from '@/events/swipe'
 export default {
   name: "Timetable",
   data() {
@@ -24,7 +23,7 @@ export default {
       date: new Date(),
       groupId: null,
       groupInfo: { number: '' },
-      timetable: [],
+      timetable: []
     };
   },
   components: {
@@ -60,11 +59,11 @@ export default {
         })
 
     },
-    swipeEventHandler(detail) {
+    swipeEventHandler(e) {
       var nextDate = new Date(this.date)
-      if (detail.dir == 'right')
+      if (e.detail.dir == 'left')
         nextDate.setDate(this.date.getDate() + 1);
-      if (detail.dir == 'left')
+      if (e.detail.dir == 'right')
         nextDate.setDate(this.date.getDate() - 1);
       document.dispatchEvent(new CustomEvent('change-main-date', { detail: { date: nextDate } }));
     }
@@ -76,15 +75,18 @@ export default {
       this.date = e.detail.date;
       this.loadTimetableOnDate(this.date);
     });
+
   },
   mounted() {
     this.groupId = localStorage.getItem('timetable-group-id');
     this.loadGroupInfo();
-    // вызов функции swipe с предварительными настройками
-    swipe(document, { maxTime: 2000, minTime: 100, maxDist: 300, minDist: 60 });
     // обработка свайпов
-    document.addEventListener("swipe", (e) => this.swipeEventHandler(e.detail));
+    document.addEventListener("swipe", this.swipeEventHandler);
   },
+  unmounted(){
+    document.removeEventListener("swipe", this.swipeEventHandler);
+    console.log('removed');
+  }
 };
 
 </script>
