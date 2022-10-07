@@ -77,6 +77,9 @@ export default {
     });
 
   },
+  updated(){
+    document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
+  },
   mounted() {
     this.groupId = localStorage.getItem('timetable-group-id');
     this.loadGroupInfo();
@@ -88,6 +91,7 @@ export default {
     document.removeEventListener("swipe", this.swipeEventHandler);
     console.log('removed');
   }
+
 };
 
 </script>
