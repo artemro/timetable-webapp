@@ -80,10 +80,11 @@ export default {
   mounted() {
     this.groupId = localStorage.getItem('timetable-group-id');
     this.loadGroupInfo();
+    document.dispatchEvent(new CustomEvent('sync-date'))
     // обработка свайпов
     document.addEventListener("swipe", this.swipeEventHandler);
   },
-  unmounted(){
+  beforeUnmount(){
     document.removeEventListener("swipe", this.swipeEventHandler);
     console.log('removed');
   }
