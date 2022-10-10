@@ -5,22 +5,17 @@
 
 ## Project setup
 ```
-npm install
+yarn
 ```
 
 ### Steps to test your Vue single-spa application:
 Compiles and hot-reloads for development
-1. Run 'npm run serve'
-2. Go to http://single-spa-playground.org/playground/instant-test?name=@profcomff/timetable-webapp&url=%2F%2Flocalhost%3A8080%2Fjs%2Fapp.js&framework=vue to see it working!
+1. Run 'yarn serve'
+2. Go to http://app.test.profcomff.com/ and use [instrctions here](https://github.com/profcomff/.github/wiki/Frontend-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0) to setup
 
 ### Compiles and minifies for production
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+yarn build
 ```
 
 ### Customize configuration
