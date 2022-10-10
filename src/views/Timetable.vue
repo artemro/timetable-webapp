@@ -1,7 +1,7 @@
 <template>
   <div class="timetable">
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
-    <div v-else class='container'>  
+    <div v-else class='container'>
       <div class='info'>{{ this.groupInfo.number }} группа</div>
       <div class="no-events" v-if="!this.timetable.length">пары отсутствуют</div>
       <ul v-else>
@@ -16,37 +16,21 @@
 import EventRow from '@/components/EventRow.vue'
 export default {
   name: "Timetable",
-
-  mounted() {
-    this.groupId = localStorage.getItem('timetable-group-id');
-    this.$store.commit("changePage", this.pageId);
-    this.loadGroupInfo();
-    this.loadTimetableOnDate(this.$store.state.date);
-  },
   data() {
     return {
       loaded: true,
       pageId: 1,
+      date: new Date(),
       groupId: null,
-      groupInfo: {number:''},
-      timetable: [],
+      groupInfo: { number: '' },
+      timetable: []
     };
-  },
-  computed: {
-    choosenDate() {
-      return this.$store.state.date
-    }
-  },
-  watch: {
-    choosenDate(newValue) {
-      this.loadTimetableOnDate(newValue)
-    }
   },
   components: {
     EventRow: EventRow,
   },
   methods: {
-    loadGroupInfo(){
+    loadGroupInfo() {
       var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/group/${this.groupId}`);
       fetch(url).then(response => response.json())
         .then(json => {
@@ -55,17 +39,17 @@ export default {
     },
     loadTimetableOnDate(date) {
       var time_start = new Date(date);
-      time_start.setHours(time_start.getHours() - date.getTimezoneOffset()/60)
-      console.log(time_start.toISOString())
+      time_start.setHours(time_start.getHours() - date.getTimezoneOffset() / 60)
       var time_end = new Date(time_start);
       time_end.setDate(time_start.getDate() + 1)
       var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/event/`),
-        params = { 
-          start: time_start.toISOString().slice(0, 10), 
+        params = {
+          start: time_start.toISOString().slice(0, 10),
           end: time_end.toISOString().slice(0, 10),
           limit: 0,
           offset: 0,
-          group_id: this.groupId }
+          group_id: this.groupId
+        }
       Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
       this.loaded = false;
       fetch(url).then(response => response.json())
@@ -74,9 +58,42 @@ export default {
           this.loaded = true;
         })
 
+    },
+    swipeEventHandler(e) {
+      var nextDate = new Date(this.date)
+      if (e.detail.dir == 'left')
+        nextDate.setDate(this.date.getDate() + 1);
+      if (e.detail.dir == 'right')
+        nextDate.setDate(this.date.getDate() - 1);
+      document.dispatchEvent(new CustomEvent('change-main-date', { detail: { date: nextDate } }));
     }
+
+  },
+  beforeMount() {
+    document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
+    document.addEventListener('change-date', (e) => {
+      this.date = e.detail.date;
+      this.loadTimetableOnDate(this.date);
+    });
+
+  },
+  updated(){
+    document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
+  },
+  mounted() {
+    this.groupId = localStorage.getItem('timetable-group-id');
+    this.loadGroupInfo();
+    document.dispatchEvent(new CustomEvent('sync-date'))
+    // обработка свайпов
+    document.addEventListener("swipe", this.swipeEventHandler);
+  },
+  beforeUnmount(){
+    document.removeEventListener("swipe", this.swipeEventHandler);
+    console.log('removed');
   }
+
 };
+
 </script>
 
 <style scoped>
@@ -105,7 +122,7 @@ ul {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   height: 100%;
   gap: 10px;
 }
@@ -136,5 +153,4 @@ ul {
   align-self: stretch;
   flex-grow: 0;
 }
-
 </style>
