@@ -114,9 +114,16 @@ export default {
       );
     },
     swipeEventHandler(e) {
+      this.loaded = false;
+      this.timetable = [];
       var nextDate = new Date(this.date);
-      if (e.detail.dir == "left") nextDate.setDate(this.date.getDate() + 1);
-      if (e.detail.dir == "right") nextDate.setDate(this.date.getDate() - 1);
+      if (e.detail.dir == "left") {
+        nextDate.setDate(this.date.getDate() + 1);
+      } else if (e.detail.dir == "right") {
+        nextDate.setDate(this.date.getDate() - 1);
+      } else {
+        return;
+      }
       document.dispatchEvent(
         new CustomEvent("change-main-date", { detail: { date: nextDate } })
       );
