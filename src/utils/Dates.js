@@ -2,10 +2,10 @@ export function getMonday(d) {
     /**
      * Возвращает понедельник текущей недели
      */
-    d = getMidnight(d);
-    var day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-    return new Date(d.setDate(diff));
+    let dt = getMidnight(d);
+    var day = dt.getDay(),
+        diff = dt.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    return new Date(dt.setDate(diff));
 }
 
 
@@ -13,21 +13,21 @@ export function getMidnight(d) {
     /**
      * Возвращает начало сегодняшнего дня
      */
-    d = new Date(d);
-    d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
-    return d;
+    let dt = new Date(d);
+    dt.setHours(0, 0, 0, 0);
+    return dt;
 }
 
 export function isToday(d, today) {
     /**
      * Проверяет совпадение дат, но не времени
      */
-    d = new Date(d);
-    today = new Date(today);
+    let d1 = new Date(d),
+        d2 = new Date(today);
     let isToday = (
-        today.getFullYear() == d.getFullYear()
-        && today.getUTCMonth() == d.getUTCMonth()
-        && today.getUTCDate() == d.getUTCDate()
+        d1.getFullYear() == d2.getFullYear()
+        && d1.getUTCMonth() == d2.getUTCMonth()
+        && d1.getUTCDate() == d2.getUTCDate()
     );
     return isToday;
 }

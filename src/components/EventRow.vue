@@ -27,11 +27,11 @@ export default{
         formatLecturer(info){
             if (!info.middle_name)
                 return `${info.last_name} ${info.first_name[0]}. `;
-            return `${info.last_name} ${info.first_name[0]}.${info.middle_name[0]}. `;
+            return `${info.last_name}&nbsp;${info.first_name[0]}.&nbsp;${info.middle_name[0]}. `;
         },
         formatInfo(lecturer, room){
             let total = '';
-            
+
             room.forEach(element => {
                 total += `${element.name} `
             })
@@ -40,7 +40,7 @@ export default{
             lecturer.forEach(element => {
                 total += `${this.formatLecturer(element)}`;
             });
-            
+
             return total;
         }
     }

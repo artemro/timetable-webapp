@@ -73,9 +73,11 @@ export default {
         retry(
           () =>
             fetchTimetable(time_start, time_end, this.groupId).then((json) => {
-              this.timetable = json.items;
-              this.loaded = true;
-              console.log("Loaded from internet");
+              if (isToday(this.date, time_start)) {
+                this.timetable = json.items;
+                this.loaded = true;
+                console.log("Loaded from internet", json.items);
+              }
             }),
           5,
           1000
@@ -89,7 +91,7 @@ export default {
       cached = cached.filter((value) =>
         isToday(Date.parse(value.start_ts), date)
       );
-      console.log(cached);
+      console.log("Loaded from cache", cached);
       if (!this.loaded && cached.length > 0) {
         this.timetable = cached;
         this.loaded = true;
