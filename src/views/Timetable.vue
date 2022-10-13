@@ -21,7 +21,7 @@
 import EventRow from "@/components/EventRow.vue";
 import retry from "@/utils/Retrying.js";
 import { fetchTimetable } from "@/utils/FetchTimetable.js";
-import { getMonday, getMidnight, isToday } from "@/utils/Dates.js";
+import { getMonday, isToday } from "@/utils/Dates.js";
 
 export default {
   name: "Timetable",
@@ -64,8 +64,8 @@ export default {
       }
     },
     loadTimetableOnDate(date) {
-      var time_start = getMidnight(date);
-      var time_end = new Date(time_start);
+      var time_start = new Date(date);
+      var time_end = new Date(date);
       time_end.setDate(time_start.getDate() + 1);
 
       // Quering events from internet, trying 5 times with 1sec between

@@ -2,32 +2,33 @@ export function getMonday(d) {
     /**
      * Возвращает понедельник текущей недели
      */
-    let dt = getMidnight(d);
+    let dt = new Date(d);
     var day = dt.getDay(),
         diff = dt.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
     return new Date(dt.setDate(diff));
 }
 
+export function getIsoDate(date) {
+    date = new Date(date);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate();
 
-export function getMidnight(d) {
-    /**
-     * Возвращает начало сегодняшнего дня
-     */
-    let dt = new Date(d);
-    dt.setHours(0, 0, 0, 0);
-    return dt;
+    if (dt < 10) {
+        dt = '0' + dt;
+    }
+    if (month < 10) {
+        month = '0' + month;
+    }
+
+    return year + '-' + month + '-' + dt;
 }
 
 export function isToday(d, today) {
     /**
      * Проверяет совпадение дат, но не времени
      */
-    let d1 = new Date(d),
-        d2 = new Date(today);
-    let isToday = (
-        d1.getFullYear() == d2.getFullYear()
-        && d1.getUTCMonth() == d2.getUTCMonth()
-        && d1.getUTCDate() == d2.getUTCDate()
-    );
-    return isToday;
+    let d1 = getIsoDate(d),
+        d2 = getIsoDate(today);
+    return d1 == d2;
 }
