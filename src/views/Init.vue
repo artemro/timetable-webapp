@@ -110,7 +110,6 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 10%;
-  padding-top: 66px;
   padding-bottom: 66px;
   gap: 1em;
   width: 100%;

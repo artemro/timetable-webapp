@@ -191,7 +191,6 @@ ul {
 
 .timetable {
   padding: 10px;
-  padding-top: 66px;
   display: flex;
   flex-direction: column;
   justify-content: center;
