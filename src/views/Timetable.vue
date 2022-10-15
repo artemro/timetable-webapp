@@ -2,17 +2,27 @@
   <div class="timetable">
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
     <div v-else class="container">
-      <div class="info">{{ this.groupInfo.number }} группа</div>
+      <div class="weekday">
+        <span>
+          <span class="material-symbols-sharp"> arrow_back_ios </span>
+          {{ yesterdayWeekdayFormated }}
+        </span>
+        <span>{{ todayWeekdayFormated }}</span>
+        <span>
+          {{ tomorrowWeekdayFormated }}
+          <span class="material-symbols-sharp"> arrow_forward_ios </span>
+        </span>
+      </div>
       <div class="no-events" v-if="!this.timetable.length">
         пары отсутствуют
       </div>
-      <ul v-else>
+      <div v-else>
         <EventRow
           v-for="lesson of this.timetable"
           :key="lesson.id"
           :lesson="lesson"
         />
-      </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -131,6 +141,28 @@ export default {
       );
     },
   },
+  computed: {
+    todayWeekdayFormated() {
+      const wdname = [
+        "Воскресенье",
+        "Понедельник",
+        "Вторник",
+        "Среда",
+        "Четверг",
+        "Пятница",
+        "Суббота",
+      ];
+      return wdname[this.date.getDay()];
+    },
+    yesterdayWeekdayFormated() {
+      const wdname = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
+      return wdname[(this.date.getDay() + 6) % 7]; // День недели через 6 дней == День недели вчера, но точно положительный =)
+    },
+    tomorrowWeekdayFormated() {
+      const wdname = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
+      return wdname[(this.date.getDay() + 1) % 7];
+    },
+  },
   watch: {
     date(newDate) {
       this.loaded = false;
@@ -169,15 +201,6 @@ export default {
 </script>
 
 <style scoped>
-ul {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 10px;
-  gap: 10px;
-  width: auto;
-}
-
 .no-events {
   margin-top: auto;
   margin-bottom: auto;
@@ -195,11 +218,10 @@ ul {
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-  gap: 10px;
+  padding-top: 8px;
 }
 
 .timetable {
-  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -209,18 +231,19 @@ ul {
   overflow: scroll;
 }
 
-.info {
-  height: 20px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 16px;
-  letter-spacing: 0.4px;
-  color: #000000;
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
+.weekday {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  color: var(--bs-primary);
+  font-size:1rem;
+  padding: 8px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.weekday .material-symbols-sharp {
+  font-size:0.8rem;
 }
 </style>
