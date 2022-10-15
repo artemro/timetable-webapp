@@ -3,12 +3,12 @@
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
     <div v-else class="container">
       <div class="weekday">
-        <span>
+        <span @click="changeDate({detail: {dir: 'right'}})">
           <span class="material-symbols-sharp"> arrow_back_ios </span>
           {{ yesterdayWeekdayFormated }}
         </span>
         <span>{{ todayWeekdayFormated }}</span>
-        <span>
+        <span @click="changeDate({detail: {dir: 'left'}})">
           {{ tomorrowWeekdayFormated }}
           <span class="material-symbols-sharp"> arrow_forward_ios </span>
         </span>
@@ -125,7 +125,7 @@ export default {
         10000
       );
     },
-    swipeEventHandler(e) {
+    changeDate(e) {
       this.loaded = false;
       this.timetable = [];
       var nextDate = new Date(this.date);
@@ -189,13 +189,13 @@ export default {
     this.loadGroupInfo();
     document.dispatchEvent(new CustomEvent("sync-date"));
     // обработка свайпов
-    document.addEventListener("swipe", this.swipeEventHandler);
+    document.addEventListener("swipe", this.changeDate);
 
     // Загружаем кэш в память
     this.loadTimetableCache();
   },
   beforeUnmount() {
-    document.removeEventListener("swipe", this.swipeEventHandler);
+    document.removeEventListener("swipe", this.changeDate);
   },
 };
 </script>
@@ -238,12 +238,12 @@ export default {
   justify-content: space-between;
   width: 100%;
   color: var(--bs-primary);
-  font-size:1rem;
+  font-size: 1rem;
   padding: 8px;
   text-transform: uppercase;
   font-weight: bold;
 }
 .weekday .material-symbols-sharp {
-  font-size:0.8rem;
+  font-size: 0.8rem;
 }
 </style>
