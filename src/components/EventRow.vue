@@ -55,6 +55,7 @@ export default {
   gap: 16px;
   border-radius: 20px;
   background: var(--bs-primary-10);
+  transition: background-color 0.5s ease;
   height: 78px;
   margin: 16px auto;
   padding: 10px 16px;
@@ -62,6 +63,9 @@ export default {
   max-width: 600px;
   min-width: 300px;
   overflow: hidden;
+}
+.event:hover {
+  background: var(--bs-primary-20);
 }
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
