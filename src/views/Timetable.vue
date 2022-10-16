@@ -38,9 +38,8 @@ export default {
   data() {
     return {
       loaded: true,
-      pageId: 1,
       date: new Date(),
-      groupId: null,
+      groupId: undefined,
       groupInfo: { number: "" },
       timetable: [],
     };
@@ -53,8 +52,9 @@ export default {
       // Loading from cache if exists
       try {
         this.groupInfo = JSON.parse(
-          localStorage.getItem("timetable-group-info") || '{"number": ""}'
+          localStorage.getItem("timetable-group-info")
         );
+        document.dispatchEvent(this.headerEvent);
       } catch (err) {
         console.log("Can not take group info from cache", err);
       }
@@ -68,6 +68,7 @@ export default {
           .then((json) => {
             this.groupInfo = json;
             localStorage.setItem("timetable-group-info", JSON.stringify(json));
+            document.dispatchEvent(this.headerEvent);
           });
       } catch (error) {
         console.error("Failed to load group info");
@@ -162,6 +163,30 @@ export default {
       const wdname = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
       return wdname[(this.date.getDay() + 1) % 7];
     },
+    headerEvent() {
+      return new CustomEvent("change-header-layout", {
+        detail: {
+          layoutName: "calendar",
+          text: "Твой физфак!",
+          groupInfo: this.groupInfo,
+          disabled: false,
+          menu: [
+            {
+              name: "Изменить группу",
+              action: () => {
+                this.loaded = false;
+                this.groupId = undefined;
+                this.groupInfo = {number: ''};
+                this.timetable = [];
+                localStorage.removeItem("timetable-group-id");
+                localStorage.removeItem("timetable-cache");
+                this.$router.push("/timetable/init");
+              },
+            },
+          ],
+        },
+      });
+    },
   },
   watch: {
     date(newDate) {
@@ -177,25 +202,7 @@ export default {
     );
   },
   updated() {
-    document.dispatchEvent(
-      new CustomEvent("change-header-layout", {
-        detail: {
-          layoutName: "calendar",
-          text: "Твой физфак!",
-          disabled: false,
-          menu: [
-            {
-              name: "Изменить группу",
-              action: () => {
-                localStorage.removeItem("timetable-group-id");
-                localStorage.removeItem("timetable-cache");
-                this.$router.push("/timetable/init");
-              },
-            },
-          ],
-        },
-      })
-    );
+    document.dispatchEvent(this.headerEvent);
   },
   mounted() {
     this.groupId = localStorage.getItem("timetable-group-id");
