@@ -179,6 +179,7 @@ export default {
                 this.groupInfo = {number: ''};
                 this.timetable = [];
                 localStorage.removeItem("timetable-group-id");
+                localStorage.removeItem("timetable-group-info");
                 localStorage.removeItem("timetable-cache");
                 this.$router.push("/timetable/init");
               },
