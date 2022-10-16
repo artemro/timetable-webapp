@@ -206,6 +206,7 @@ export default {
     document.dispatchEvent(this.headerEvent);
   },
   mounted() {
+    document.dispatchEvent(this.headerEvent);
     this.groupId = localStorage.getItem("timetable-group-id");
     this.loadGroupInfo();
     document.dispatchEvent(new CustomEvent("sync-date"));
