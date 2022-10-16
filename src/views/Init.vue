@@ -117,7 +117,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10%;
+  padding: 10px 10%;
   padding-bottom: 66px;
   gap: 1em;
   width: 100%;
