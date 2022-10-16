@@ -69,28 +69,31 @@ export default {
 }
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
   cursor: default;
 }
 p {
-  margin: 4px 0;
+  margin: 0;
 }
-.time {
-  width: 50px;
-  font-size: 16px;
-  flex: 0 0 50px;
-}
+div.time,
 div.info {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  min-width: 0;
+  font-size: 16px;
   height: 100%;
+}
+div.time {
+  width: 50px;
+  flex: 0 0 50px;
+}
+div.info {
+  min-width: 0;
 }
 .info > p {
   width: 100%;
