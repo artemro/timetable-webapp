@@ -3,12 +3,12 @@
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
     <div v-else class="container">
       <div class="weekday">
-        <span @click="changeDate({detail: {dir: 'right'}})">
+        <span @click="changeDate({ detail: { dir: 'right' } })">
           <span class="material-symbols-sharp"> arrow_back_ios </span>
           {{ yesterdayWeekdayFormated }}
         </span>
         <span>{{ todayWeekdayFormated }}</span>
-        <span @click="changeDate({detail: {dir: 'left'}})">
+        <span @click="changeDate({ detail: { dir: 'left' } })">
           {{ tomorrowWeekdayFormated }}
           <span class="material-symbols-sharp"> arrow_forward_ios </span>
         </span>
@@ -171,9 +171,6 @@ export default {
     },
   },
   beforeMount() {
-    document.dispatchEvent(
-      new CustomEvent("change-page", { detail: this.pageId })
-    );
     document.addEventListener(
       "change-date",
       (e) => (this.date = e.detail.date)
@@ -181,7 +178,23 @@ export default {
   },
   updated() {
     document.dispatchEvent(
-      new CustomEvent("change-page", { detail: this.pageId })
+      new CustomEvent("change-header-layout", {
+        detail: {
+          layoutName: "calendar",
+          text: "Твой физфак!",
+          disabled: false,
+          menu: [
+            {
+              name: "Изменить группу",
+              action: () => {
+                localStorage.removeItem("timetable-group-id");
+                localStorage.removeItem("timetable-cache");
+                this.$router.push("/timetable/init");
+              },
+            },
+          ],
+        },
+      })
     );
   },
   mounted() {

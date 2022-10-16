@@ -75,7 +75,16 @@ export default {
   },
   beforeMount() {
     this.loadGroups();
-    document.dispatchEvent(new CustomEvent("change-page", { detail: this.pageId }));
+    document.dispatchEvent(
+      new CustomEvent("change-header-layout", {
+        detail: {
+          layoutName: "calendar",
+          text: "Твой физфак!",
+          disabled: true,
+          menu: [],
+        },
+      })
+    );
   },
   computed:{
     logoItem(){
@@ -87,7 +96,6 @@ export default {
   },
   data() {
     return {
-      pageId: 0,
       groupId: null,
       groupList: {},
     };
