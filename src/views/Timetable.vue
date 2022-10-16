@@ -3,12 +3,12 @@
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
     <div v-else class="container">
       <div class="weekday">
-        <span @click="changeDate({ detail: { dir: 'right' } })">
+        <span class="noselect clickable" @click="changeDate({ detail: { dir: 'right' } })">
           <span class="material-symbols-sharp"> arrow_back_ios </span>
           {{ yesterdayWeekdayFormated }}
         </span>
-        <span>{{ todayWeekdayFormated }}</span>
-        <span @click="changeDate({ detail: { dir: 'left' } })">
+        <span class="noselect">{{ todayWeekdayFormated }}</span>
+        <span class="noselect clickable" @click="changeDate({ detail: { dir: 'left' } })">
           {{ tomorrowWeekdayFormated }}
           <span class="material-symbols-sharp"> arrow_forward_ios </span>
         </span>
@@ -127,8 +127,6 @@ export default {
       );
     },
     changeDate(e) {
-      this.loaded = false;
-      this.timetable = [];
       var nextDate = new Date(this.date);
       if (e.detail.dir == "left") {
         nextDate.setDate(this.date.getDate() + 1);
@@ -137,6 +135,8 @@ export default {
       } else {
         return;
       }
+      this.loaded = false;
+      this.timetable = [];
       document.dispatchEvent(
         new CustomEvent("change-main-date", { detail: { date: nextDate } })
       );
@@ -222,6 +222,20 @@ export default {
 </script>
 
 <style scoped>
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+  cursor: default;
+}
+.clickable {
+  cursor: pointer;
+}
+
 .no-events {
   margin-top: auto;
   margin-bottom: auto;
