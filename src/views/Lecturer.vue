@@ -51,6 +51,9 @@ export default {
 <style scoped>
 .lecturer-wrapper {
     padding: 32px 24px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .lecturer-photo {
@@ -84,7 +87,6 @@ export default {
 
 .lds-dual-ring {
     align-self: center;
-    justify-self: center;
 }
 
 

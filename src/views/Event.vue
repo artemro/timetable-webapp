@@ -1,16 +1,15 @@
 <template>
     <div class="event-wrapper">
         <div v-if="!this.loaded" class="lds-dual-ring"></div>
-        <div v-else>
+        <div v-else >
             <div class="lesson-event">
                 <b>{{this.eventInfo.name}}</b>
             </div>
             <ul>
                 <EventGroups :eventNumber="this.eventInfo.group.number"
-                            :eventDate="this.formatDate(this.date)"
-                            :eventTime="this.DownTextFirst(this.eventInfo.start_ts, this.eventInfo.end_ts)"
+                             :eventDate="this.formatDate(this.date)"
+                             :eventTime="this.DownTextFirst(this.eventInfo.start_ts, this.eventInfo.end_ts)"
                 ></EventGroups>
-
                 <EventRoom v-for="room in this.eventInfo.room"
                             :key="room.id"
                             :room="room"
@@ -89,8 +88,12 @@ export default {
         padding: 32px 24px 0px 24px;
         height: calc(100% - 56px);
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: center;
+    }
+
+    .lds-dual-ring {
+        align-self: center;
     }
 
     .lesson-event {
