@@ -19,8 +19,9 @@
       <div v-else>
         <EventRow
           v-for="lesson of this.timetable"
-          :key="lesson.id"
+          :key="lesson.id" 
           :lesson="lesson"
+          @click="$router.push(`/timetable/event/${lesson.id}`)"
         />
       </div>
     </div>
