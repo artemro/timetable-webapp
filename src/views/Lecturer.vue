@@ -3,14 +3,19 @@
         <div v-if="!this.loaded" class="lds-dual-ring"></div>
         <div v-else>
             <div class="lecturer-photo" v-if="this.lecturerInfo.avatar_link">
-                <img v-bind:src="this.lecturerInfo.avatar_link" alt="">
+                <img v-bind:src="this.lecturerInfo.avatar_link" alt="" class="lecturer-img">
             </div>
             <div class="lecturer-photo" v-else>
                 <div class="material-symbols-sharp">person</div>
             </div>
-            <h2 class="lecturer-header"><b>{{lecturerInfo.first_name}} {{lecturerInfo.middle_name}}</b></h2>
-            <h2 class="lecturer-header"><b>{{lecturerInfo.last_name}}</b></h2>
-            <div class="lecturer-description">{{lecturerInfo.description}}</div>
+            <div v-if="this.lecturerInfo.first_name[2]">
+                <h2 class="lecturer-header"><b>{{this.lecturerInfo.first_name}} {{this.lecturerInfo.middle_name}}</b></h2>
+                <h2 class="lecturer-header"><b>{{this.lecturerInfo.last_name}}</b></h2>
+            </div>
+            <div v-else>
+                <h2 class="lecturer-header"><b>{{this.lecturerInfo.first_name}} {{this.lecturerInfo.middle_name}} {{this.lecturerInfo.last_name}}</b></h2>
+            </div>
+            <div class="lecturer-description">{{this.lecturerInfo.description}}</div>
         </div>
     </div>
 </template>
@@ -67,6 +72,13 @@ export default {
     justify-content: center;
     margin-bottom: 16px;
 
+}
+
+.lecturer-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
 }
 
 .lecturer-header {

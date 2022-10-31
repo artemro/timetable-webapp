@@ -10,9 +10,12 @@
                 <span class="material-symbols-sharp">person</span>
             </div>
         </div>
-        <div class="event-item-information">
+        <div class="event-item-information" v-if="lecturer.first_name[2]">
             <div class="event-item-header"><b>{{lecturer.first_name}} {{lecturer.middle_name}}</b></div>
             <div>{{lecturer.last_name}}</div>
+        </div>
+        <div class="event-item-information" v-else>
+            <b>{{lecturer.first_name}} {{lecturer.middle_name}} {{lecturer.last_name}}</b>
         </div>
     </li>
 </template>
@@ -29,10 +32,6 @@ export default {
 
     data() {
         return {
-            textUp: [
-                "Группы",
-
-            ],
             textDown: [],
             icon: [],
             date: new Date(),

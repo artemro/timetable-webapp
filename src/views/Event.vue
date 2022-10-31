@@ -1,7 +1,7 @@
 <template>
     <div class="event-wrapper">
         <div v-if="!this.loaded" class="lds-dual-ring"></div>
-        <div v-else >
+        <div v-else>
             <div class="lesson-event">
                 <b>{{this.eventInfo.name}}</b>
             </div>
@@ -9,17 +9,17 @@
                 <EventGroups :eventNumber="this.eventInfo.group.number"
                              :eventDate="this.formatDate(this.date)"
                              :eventTime="this.DownTextFirst(this.eventInfo.start_ts, this.eventInfo.end_ts)"
-                ></EventGroups>
+                />
                 <EventRoom v-for="room in this.eventInfo.room"
                             :key="room.id"
                             :room="room"
                             @click="$router.push(`/timetable/room/${room.id}`);"
-                ></EventRoom>
+                />
                 <EventLesson v-for="lecturer in this.eventInfo.lecturer" 
                             :key="lecturer.id"
                             :lecturer="lecturer"
                             @click="$router.push(`/timetable/lecturer/${lecturer.id}`);"
-                ></EventLesson>
+                />
             </ul>
         </div>
     </div>
