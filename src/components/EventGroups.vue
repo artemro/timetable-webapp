@@ -18,7 +18,6 @@
             </div>
         </div>
     </li>
-    
 </template>
 
 <script>
@@ -49,8 +48,6 @@ export default {
             }]
         }
     },
-    methods: {
-    }
 }
 </script>
 
