@@ -8,13 +8,21 @@
             <span class="material-symbols-sharp">explore</span>
             <span>{{roomInfo.direction}}</span>
         </div>
-        <b class="room-header">Карта этажа</b>
+        <h4 class="room-header"><b>Карта этажа</b></h4>
         <div class="map">
             <a href="https://cdn.profcomff.com/app/map/" class="map-link">
                 <div class="map-text">Посмотреть на карте</div>
             </a>
         </div>
-        <iframe class="frame" src="https://forms.yandex.ru/u/635561ef6938728a0d6e1429/?iframe=1" frameborder="0" name="ya-form-635561ef6938728a0d6e1429" width="100%"></iframe>
+        <div class="frame-header">
+            <h4>Неисправность в аудитории?</h4>
+        </div>
+        <iframe src="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/?iframe=1" 
+                frameborder="0" 
+                name="ya-form-635d013b068ff0587320bfc9" 
+                width="100%"
+                class="frame">
+        </iframe>
     </div>
 </template>
 
@@ -57,10 +65,15 @@ export default {
 <style scoped>
 .room-wrapper {
     padding: 32px 24px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 640px;
+    margin: 0 auto;
 }
 
 .room-header {
-    font-size: 20px;
+    align-self: flex-start;
 }
 
 .map {
@@ -115,12 +128,17 @@ a {
     text-align: center;
 }
 
-.room-frame {
-    border-radius: 5px;
+.frame-header {
+    align-self: flex-start;
+    margin-bottom: 8px;
+    margin-top: 8px;
 }
+</style>
 
-.frame {
-    height: 200px;
+<style>
+@media (min-width: 768px) {
+    .frame {
+        max-width: 640px;
+    }
 }
-
 </style>

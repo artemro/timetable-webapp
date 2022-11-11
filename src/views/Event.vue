@@ -13,12 +13,12 @@
                 <EventRoom v-for="room in this.eventInfo.room"
                             :key="room.id"
                             :room="room"
-                            @click="$router.push(`/timetable/room/${room.id}`);"
+                            @click="this.clickRoom(room.id)"
                 />
                 <EventLesson v-for="lecturer in this.eventInfo.lecturer" 
                             :key="lecturer.id"
                             :lecturer="lecturer"
-                            @click="$router.push(`/timetable/lecturer/${lecturer.id}`);"
+                            @click="this.clickLecturer(lecturer.id)"
                 />
             </ul>
         </div>
@@ -61,6 +61,45 @@ export default {
         },
         DownTextFirst(stringStart, stringEnd) {
             return stringStart.slice(11,16) + ' — ' + stringEnd.slice(11,16);
+        }, 
+        clickRoom(roomId) {
+            this.$router.push(`/timetable/room/${roomId}`);
+            try {
+                fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
+                method: "POST",
+                cache: "no-cache",
+                redirect: "follow",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_id: localStorage.getItem("marketing-id"),
+                    action: "route to",
+                    path_from: "/timetable",
+                    path_to: "/timetable/room",
+                }),
+            });
+            } catch {
+                //Failed, skips
+            }
+
+        },
+        clickLecturer(lecturerId) {
+            this.$router.push(`/timetable/lecturer/${lecturerId}`);
+            try {
+                fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
+                method: "POST",
+                cache: "no-cache",
+                redirect: "follow",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_id: localStorage.getItem("marketing-id"),
+                    action: "route to",
+                    path_from: "/timetable",
+                    path_to: "/timetable/lecturer",
+                }),
+            });
+        } catch {
+            //Failed, skips
+        }
         }
     },
 
@@ -74,7 +113,15 @@ export default {
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
+        
     },  
+    beforeUnmount () {
+        document.dispatchEvent(new CustomEvent("change-main-date", {
+            detail: {
+                date: new Date(this.eventInfo.start_ts.slice(0, 10))
+            }
+        }))
+    }
 }
 </script>
 
@@ -100,16 +147,11 @@ export default {
         font-size: 24px;
         margin-bottom: 8px;
     }
-
-    .none {
-        display: none;
-    }
     
     @media (min-width: 768px) {
         .event-wrapper {
             max-width: 640px;
-            margin: 0 auto;
-            height: 100vh;
+            margin: auto;
         } 
 
         b {

@@ -1,7 +1,7 @@
 <template>
     <div class="lecturer-wrapper">
         <div v-if="!this.loaded" class="lds-dual-ring"></div>
-        <div v-else>
+        <div class="wrapper" v-else>
             <div class="lecturer-photo" v-if="this.lecturerInfo.avatar_link">
                 <img v-bind:src="this.lecturerInfo.avatar_link" alt="" class="lecturer-img">
             </div>
@@ -16,6 +16,11 @@
                 <h2 class="lecturer-header"><b>{{this.lecturerInfo.first_name}} {{this.lecturerInfo.middle_name}} {{this.lecturerInfo.last_name}}</b></h2>
             </div>
             <div class="lecturer-description">{{this.lecturerInfo.description}}</div>
+            <iframe src="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/?iframe=1" 
+                    frameborder="0" 
+                    name="ya-form-635d013b068ff0587320bfc9" 
+                    width="100%">
+            </iframe>
         </div>
     </div>
 </template>
@@ -48,6 +53,11 @@ export default {
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
+    },
+    mounted() {
+        const insertScript = document.createElement('script');
+        insertScript.setAttribute('src', 'https://yastatic.net/s3/frontend/forms/_/embed.js');
+        document.body.appendChild(insertScript);
     }
     
 }
@@ -59,6 +69,11 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 640px;
 }
 
 .lecturer-photo {
@@ -92,13 +107,19 @@ export default {
 }
 
 .lecturer-description {
-    margin-top: 32px;
+    margin: 32px auto;
     line-height: 24px;
     text-align: center;
 }
 
 .lds-dual-ring {
     align-self: center;
+}
+
+@media (min-width: 768px) {
+    .wrapper {
+        width: 80%;
+    }
 }
 
 
