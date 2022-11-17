@@ -3,7 +3,7 @@
         <div v-if="!this.loaded" class="lds-dual-ring"></div>
         <div class="wrapper" v-else>
             <div class="lecturer-photo" v-if="this.lecturerInfo.avatar_link">
-                <img v-bind:src="this.lecturerInfo.avatar_link" alt="" class="lecturer-img">
+                <img v-bind:src="`https://timetable.api.test.profcomff.com/${this.lecturerInfo.avatar_link}`" alt="" class="lecturer-img">
             </div>
             <div class="lecturer-photo" v-else>
                 <div class="material-symbols-sharp">person</div>
@@ -16,11 +16,9 @@
                 <h2 class="lecturer-header"><b>{{this.lecturerInfo.first_name}} {{this.lecturerInfo.middle_name}} {{this.lecturerInfo.last_name}}</b></h2>
             </div>
             <div class="lecturer-description">{{this.lecturerInfo.description}}</div>
-            <iframe src="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/?iframe=1" 
-                    frameborder="0" 
-                    name="ya-form-635d013b068ff0587320bfc9" 
-                    width="100%">
-            </iframe>
+            <div class="frame-wrapper">
+                <a href="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/" class="frame-link">Сообщить о проблеме</a>
+            </div>
         </div>
     </div>
 </template>
@@ -53,13 +51,7 @@ export default {
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
-    },
-    mounted() {
-        const insertScript = document.createElement('script');
-        insertScript.setAttribute('src', 'https://yastatic.net/s3/frontend/forms/_/embed.js');
-        document.body.appendChild(insertScript);
-    }
-    
+    },  
 }
 </script>
 
@@ -69,6 +61,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 auto;
 }
 
 .wrapper {
@@ -86,7 +79,6 @@ export default {
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-
 }
 
 .lecturer-img {
@@ -115,6 +107,26 @@ export default {
 .lds-dual-ring {
     align-self: center;
 }
+
+.frame-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.frame-link {
+    display: inline-block;
+    margin: 0 auto 88px;
+    background-color:  white;
+    text-decoration: none;
+    color: rgba(0, 0, 75, 0.8);
+    padding: 8px 16px;
+    border-radius: 16px;
+    max-width: 330px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    border: 3px solid var(--bs-primary-80);
+} 
 
 @media (min-width: 768px) {
     .wrapper {

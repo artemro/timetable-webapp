@@ -14,15 +14,7 @@
                 <div class="map-text">Посмотреть на карте</div>
             </a>
         </div>
-        <div class="frame-header">
-            <h4>Неисправность в аудитории?</h4>
-        </div>
-        <iframe src="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/?iframe=1" 
-                frameborder="0" 
-                name="ya-form-635d013b068ff0587320bfc9" 
-                width="100%"
-                class="frame">
-        </iframe>
+        <a href="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/" class="frame-link">Сообщить о неисправности</a>
     </div>
 </template>
 
@@ -53,11 +45,6 @@ export default {
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
     },
-    mounted() {
-        const insertScript = document.createElement('script');
-        insertScript.setAttribute('src', 'https://yastatic.net/s3/frontend/forms/_/embed.js');
-        document.body.appendChild(insertScript);
-    }
 }
 </script>
 
@@ -77,7 +64,7 @@ export default {
 }
 
 .map {
-    margin: 16px auto;
+    margin: 16px auto 32px;
     width: 300px;
     height: 150px;
     background-image: url("../assets/map.png"); 
@@ -111,9 +98,6 @@ export default {
     font-weight: bold;
     font-size: 24px;
     text-align: center;
-}
-
-a { 
     text-decoration: none;
     color: white;
 }
@@ -127,18 +111,18 @@ a {
     top: calc(50% - 26px);
     text-align: center;
 }
-
-.frame-header {
-    align-self: flex-start;
-    margin-bottom: 8px;
-    margin-top: 8px;
-}
-</style>
-
-<style>
-@media (min-width: 768px) {
-    .frame {
-        max-width: 640px;
-    }
-}
+.frame-link {
+    display: inline-block;
+    margin: 0 auto 88px;
+    background-color:  white;
+    text-decoration: none;
+    color: rgba(0, 0, 75, 0.8);
+    padding: 8px 16px;
+    border-radius: 16px;
+    max-width: 330px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    border: 3px solid var(--bs-primary-80);
+} 
 </style>
