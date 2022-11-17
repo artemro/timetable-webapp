@@ -86,20 +86,20 @@ export default {
             this.$router.push(`/timetable/lecturer/${lecturerId}`);
             try {
                 fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
-                method: "POST",
-                cache: "no-cache",
-                redirect: "follow",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    user_id: localStorage.getItem("marketing-id"),
-                    action: "route to",
-                    path_from: "/timetable",
-                    path_to: "/timetable/lecturer",
-                }),
-            });
-        } catch {
-            //Failed, skips
-        }
+                    method: "POST",
+                    cache: "no-cache",
+                    redirect: "follow",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        user_id: localStorage.getItem("marketing-id"),
+                        action: "route to",
+                        path_from: "/timetable",
+                        path_to: "/timetable/lecturer",
+                    }),
+                });
+            } catch {
+                //Failed, skips
+            }
         }
     },
 
