@@ -10,11 +10,11 @@
         </div>
         <h4 class="room-header"><b>Карта этажа</b></h4>
         <div class="map">
-            <a href="https://cdn.profcomff.com/app/map/" class="map-link">
+            <a v-bind:href="mapLink" class="map-link">
                 <div class="map-text">Посмотреть на карте</div>
             </a>
         </div>
-        <a href="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/" class="frame-link">Сообщить о неисправности</a>
+        <a v-bind:href="feedbackLink" class="frame-link">Сообщить о неисправности</a>
     </div>
 </template>
 
@@ -45,6 +45,14 @@ export default {
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
     },
+    computed: {
+        feedbackLink() {
+            return `${process.env.VUE_APP_CDN}`;
+        }, 
+        mapLink() {
+            return `${process.env.VUE_APP_CDN}/app/map`;
+        }
+    }
 }
 </script>
 
