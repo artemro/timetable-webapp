@@ -1,12 +1,14 @@
 <template>
     <div class="room-wrapper">
-        <div v-if="roomInfo.building">
-            <span class="material-symbols-sharp">location_on</span>
-            <span>{{roomInfo.building}}</span>
-        </div>
-        <div v-if="roomInfo.direction">
-            <span class="material-symbols-sharp">explore</span>
-            <span>{{roomInfo.direction}}</span>
+        <div class="location-wrapper">
+            <div class="room-location" v-if="roomInfo.building">
+                <span class="material-symbols-sharp">location_on</span>
+                <span class="room-info">{{roomInfo.building}}</span>
+            </div>
+            <div class="room-location" v-if="roomInfo.direction">
+                <span class="material-symbols-sharp">explore</span>
+                <span class="room-info">{{this.roomDirection(roomInfo.direction)}}</span>
+            </div>
         </div>
         <h4 class="room-header"><b>Карта этажа</b></h4>
         <div class="map">
@@ -33,9 +35,13 @@ export default {
                 .then(json => {
                 this.roomInfo = json;
             })
-        },
+        }, 
+        roomDirection(direction) {
+            if (direction === "North") return "Север (от входа налево)";
+            if (direction === "South") return "Юг (от входа направо)";
+        }
     },
-    beforeMount() {
+    mounted() {
         this.loadRoomInfo();
         let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
             detail: {
@@ -51,7 +57,7 @@ export default {
         }, 
         mapLink() {
             return `${process.env.VUE_APP_CDN}/app/map`;
-        }
+        }, 
     }
 }
 </script>
@@ -69,6 +75,24 @@ export default {
 
 .room-header {
     align-self: flex-start;
+}
+
+.location-wrapper {
+    margin-bottom: 16px;
+    align-self: flex-start;
+}
+
+.room-location {
+    align-self: flex-start;
+    display: flex;
+    height: 30px;
+    margin-bottom: 8px;
+    width: 100%;
+    align-items: center;
+}
+
+.room-info {
+    padding-left: 12px;
 }
 
 .map {
