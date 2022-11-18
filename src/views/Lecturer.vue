@@ -3,7 +3,7 @@
         <div v-if="!this.loaded" class="lds-dual-ring"></div>
         <div class="wrapper" v-else>
             <div class="lecturer-photo" v-if="this.lecturerInfo.avatar_link">
-                <img v-bind:src="`https://timetable.api.test.profcomff.com/${this.lecturerInfo.avatar_link}`" alt="" class="lecturer-img">
+                <img v-bind:src="`${this.lecturerImg}/${this.lecturerInfo.avatar_link}`" alt="" class="lecturer-img">
             </div>
             <div class="lecturer-photo" v-else>
                 <div class="material-symbols-sharp">person</div>
@@ -17,7 +17,7 @@
             </div>
             <div class="lecturer-description">{{this.lecturerInfo.description}}</div>
             <div class="frame-wrapper">
-                <a href="https://forms.yandex.ru/u/635d013b068ff0587320bfc9/" class="frame-link">Сообщить о проблеме</a>
+                <a v-bind:href="feedbackLink" class="frame-link">Сообщить о проблеме</a>
             </div>
         </div>
     </div>
@@ -52,6 +52,14 @@ export default {
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
     },  
+    computed: {
+        lecturerImg() {
+            return `${process.env.VUE_APP_API_TIMETABLE}`;
+        }, 
+        feedbackLink() {
+            return `${process.env.VUE_APP_FEEDBACK_FORM}`;
+        }
+    }
 }
 </script>
 
