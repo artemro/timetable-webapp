@@ -47,7 +47,7 @@ export default {
     },
     computed: {
         feedbackLink() {
-            return `${process.env.VUE_APP_CDN}`;
+            return `${process.env.VUE_APP_FEEDBACK_FORM}`;
         }, 
         mapLink() {
             return `${process.env.VUE_APP_CDN}/app/map`;
