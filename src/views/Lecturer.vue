@@ -47,11 +47,21 @@ export default {
         let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
             detail: {
                 layoutName: "back",
-                text: "Вернуться к предмету",
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
     },  
+    watch: {
+        lecturerInfo(elem) {
+            let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
+                detail: {
+                    layoutName: "back",
+                    text: `${elem.last_name} ${elem.first_name[0]}. ${elem.middle_name[0]}.`
+                },
+            });
+            document.dispatchEvent(changeHeaderLayoutEvent);
+        }
+    },
     computed: {
         lecturerImg() {
             return `${process.env.VUE_APP_API_TIMETABLE}`;

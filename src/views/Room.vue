@@ -46,10 +46,20 @@ export default {
         let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
             detail: {
                 layoutName: "back",
-                text: "Вернуться к предмету",
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
+    },
+    watch: {
+        roomInfo(elem) {
+            let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
+                detail: {
+                    layoutName: "back",
+                    text: elem.name
+                },
+            });
+            document.dispatchEvent(changeHeaderLayoutEvent);
+        }
     },
     computed: {
         feedbackLink() {
