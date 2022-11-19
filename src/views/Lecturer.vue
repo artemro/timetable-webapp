@@ -17,7 +17,7 @@
             </div>
             <div class="lecturer-description">{{this.lecturerInfo.description}}</div>
             <div class="frame-wrapper">
-                <a v-bind:href="feedbackLink" class="frame-link">Сообщить о проблеме</a>
+                <router-link :to="feedbackLink" class="frame-link">Сообщить о проблеме</router-link>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@ export default {
             return `${process.env.VUE_APP_API_TIMETABLE}`;
         }, 
         feedbackLink() {
-            return `${process.env.VUE_APP_FEEDBACK_FORM}`;
+            return `/apps/browser#${process.env.VUE_APP_FEEDBACK_FORM}?url=${window.location.href}`;
         }
     }
 }

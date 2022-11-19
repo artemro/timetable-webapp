@@ -16,7 +16,7 @@
                 <div class="map-text">Посмотреть на карте</div>
             </a>
         </div>
-        <a v-bind:href="feedbackLink" class="frame-link">Сообщить о неисправности</a>
+        <router-link :to="feedbackLink" class="frame-link">Сообщить о неисправности</router-link>
     </div>
 </template>
 
@@ -63,10 +63,10 @@ export default {
     },
     computed: {
         feedbackLink() {
-            return `${process.env.VUE_APP_FEEDBACK_FORM}`;
+            return `/apps/browser#${process.env.VUE_APP_FEEDBACK_FORM}?url=${window.location.href}`;;
         }, 
         mapLink() {
-            return `${process.env.VUE_APP_CDN}/app/map`;
+            return `/apps/browser#${process.env.VUE_APP_CDN}/app/map`;
         }, 
     }
 }
