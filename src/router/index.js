@@ -10,6 +10,21 @@ const routes = [
     path: '/timetable/init',
     name: 'init',
     component: () => import('../views/Init.vue')
+  },
+  {
+    path: '/timetable/event/:eventId',
+    name: 'Event',
+    component: () => import('../views/Event.vue')
+  },
+  {
+    path: '/timetable/lecturer/:lecturerId',
+    name: 'Lecturer',
+    component: () => import('../views/Lecturer.vue')
+  },
+  {
+    path: '/timetable/room/:roomId',
+    name: 'Room',
+    component: () => import('../views/Room.vue')
   }
 ]
 

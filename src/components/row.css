@@ -1,0 +1,52 @@
+.event-item {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    height: 78px; 
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+} 
+.event-item:nth-child(n+3) {
+    margin-top: 16px;
+    background-color:rgba(0, 0, 0, 0.06);
+}
+
+.event-item:last-of-type {
+    margin-bottom: 80px;
+}
+
+.event-item:nth-child(n+3):hover {
+  background: var(--bs-primary-20);
+}
+.event-item-icon {
+    min-width: 88px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-item-header:nth-of-type(n+3) {
+    font-weight: bold;
+}
+
+.event-item-information:nth-of-type(n+3) {
+    font-size: 16px;
+}
+
+.event-item-information {
+    font-size: 18px;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+    cursor: default;
+  }
