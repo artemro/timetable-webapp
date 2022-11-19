@@ -1,5 +1,5 @@
 <template>
-    <li class="event-item">
+    <li class="event-item noselect">
         <div class="photo-lecturer" v-if="lecturer.avatar_link">
             <div>
                 <img v-bind:src="lecturer.avatar_link">

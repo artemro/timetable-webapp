@@ -1,5 +1,5 @@
 <template>
-    <li class="event-item">
+    <li class="event-item noselect">
         <div class="event-item-icon">
             <span class="material-symbols-sharp">location_on</span>
         </div>

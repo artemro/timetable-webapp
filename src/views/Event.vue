@@ -109,12 +109,21 @@ export default {
         let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
             detail: {
                 layoutName: "back",
-                text: "Вернуться к расписанию",
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
-        
     },  
+    watch: {
+        eventInfo(elem) {
+            let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
+                detail: {
+                    layoutName: "back",
+                    text: `${this.formatDate(new Date(elem.start_ts.slice(0, 10)))}, ${elem.start_ts.slice(11,16)}`
+                },
+            });
+            document.dispatchEvent(changeHeaderLayoutEvent);
+        }
+    },
     beforeUnmount () {
         document.dispatchEvent(new CustomEvent("change-main-date", {
             detail: {
