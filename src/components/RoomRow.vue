@@ -6,7 +6,8 @@
         <div class="event-item-information">
             <div class="event-item-header"><b>{{room.name}}</b></div>
             <div>
-                <span v-if="room.building">{{room.building}} • </span>
+                <span v-if="room.building">{{room.building}}</span>
+                <span v-if="room.building && room.direction"> • </span>
                 <span v-if="room.direction">{{roomDirection(room.direction)}}</span>
             </div>
         </div>
