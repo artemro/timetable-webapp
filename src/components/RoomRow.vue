@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import '@/components/row.css';
+
 export default {
     props: {
         room: {

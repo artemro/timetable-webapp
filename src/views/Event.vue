@@ -6,16 +6,16 @@
                 <b>{{this.eventInfo.name}}</b>
             </div>
             <ul>
-                <EventGroups :eventNumber="this.eventInfo.group.number"
+                <GroupRow :eventNumber="this.eventInfo.group.number"
                              :eventDate="this.formatDate(this.date)"
                              :eventTime="this.DownTextFirst(this.eventInfo.start_ts, this.eventInfo.end_ts)"
                 />
-                <EventRoom v-for="room in this.eventInfo.room"
+                <RoomRow v-for="room in this.eventInfo.room"
                             :key="room.id"
                             :room="room"
                             @click="this.clickRoom(room.id)"
                 />
-                <EventLesson v-for="lecturer in this.eventInfo.lecturer" 
+                <LecturerRow v-for="lecturer in this.eventInfo.lecturer" 
                             :key="lecturer.id"
                             :lecturer="lecturer"
                             @click="this.clickLecturer(lecturer.id)"
@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import EventGroups from "@/components/EventGroups.vue";
-import EventLesson from "@/components/EventLesson.vue";
-import EventRoom from "@/components/EventRoom.vue";
+import GroupRow from "@/components/GroupRow.vue";
+import LecturerRow from "@/components/LecturerRow.vue";
+import RoomRow from "@/components/RoomRow.vue";
 export default {
-    components: {EventLesson, EventRoom, EventGroups},
+    components: {LecturerRow, RoomRow, GroupRow},
     data() {
         return {
             loaded: false,
@@ -158,48 +158,4 @@ export default {
             text-align: center;
         }
     }
-</style>
-
-<style>
-.event-item {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    height: 78px; 
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-} 
-.event-item:nth-child(n+3) {
-    margin-top: 16px;
-    background-color:rgba(0, 0, 0, 0.06);
-}
-
-.event-item:last-of-type {
-    margin-bottom: 80px;
-}
-
-.event-item:nth-child(n+3):hover {
-  background: var(--bs-primary-20);
-}
-.event-item-icon {
-    min-width: 88px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.event-item-header:nth-of-type(n+3) {
-    font-weight: bold;
-}
-
-.event-item-information:nth-of-type(n+3) {
-    font-size: 16px;
-}
-
-.event-item-information {
-    font-size: 18px;
-}
 </style>
