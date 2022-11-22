@@ -1,6 +1,7 @@
 .event-item {
     width: 100%;
     padding: 0;
+    padding-right: 16px;
     margin: 0;
     list-style-type: none;
     height: 78px; 
