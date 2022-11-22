@@ -1,31 +1,57 @@
 <template>
   <div class="event-wrapper">
-    <div v-if="!this.loaded" class="lds-dual-ring"></div>
+    <div v-if="!loaded" class="lds-dual-ring"></div>
     <div v-else>
       <div class="lesson-event">
-        <b>{{ this.eventInfo.name }}</b>
+        <b>{{ eventInfo.name }}</b>
       </div>
       <ul>
         <GroupRow
-          :eventNumber="this.eventInfo.group.number"
-          :eventDate="this.formatDate(this.date)"
-          :eventTime="
-            this.DownTextFirst(this.eventInfo.start_ts, this.eventInfo.end_ts)
-          "
+          :eventNumber="eventInfo.group.number"
+          :eventDate="formatDate(date)"
+          :eventTime="DownTextFirst(eventInfo.start_ts, eventInfo.end_ts)"
         />
         <RoomRow
-          v-for="room in this.eventInfo.room"
+          v-for="room in eventInfo.room"
           :key="room.id"
           :room="room"
-          @click="this.clickRoom(room.id)"
+          @click="clickRoom(room.id)"
         />
         <LecturerRow
-          v-for="lecturer in this.eventInfo.lecturer"
+          v-for="lecturer in eventInfo.lecturer"
           :key="lecturer.id"
           :lecturer="lecturer"
-          @click="this.clickLecturer(lecturer.id)"
+          @click="clickLecturer(lecturer.id)"
         />
       </ul>
+      <div class="comment-container">
+        <b>Комментарии</b>
+        <p class="row" v-if="getCurComments().length == 0">
+          <i class="text-secondary text-center">Еще нет комментариев</i>
+        </p>
+        <div v-for="(comment, i) in getCurComments()" :key="i" class="comment">
+          <span
+            class="material-symbols-sharp delete-btn text-danger"
+            @click="dropComment(i)"
+          >
+            delete
+          </span>
+          <p>{{ comment }}</p>
+        </div>
+        <form @submit.prevent="sendComment">
+          <textarea
+            name="comment-text"
+            id="comment-text"
+            rows="3"
+            class="form-control"
+          ></textarea>
+          <input
+            type="submit"
+            class="btn form-control"
+            value="Сохранить на этом устройстве"
+          />
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -42,9 +68,9 @@ export default {
       eventId: this.$route.params.eventId,
       eventInfo: {},
       date: new Date(),
+      comments: {},
     };
   },
-
   methods: {
     loadEventInfo() {
       var url = new URL(
@@ -108,6 +134,34 @@ export default {
         //Failed, skips
       }
     },
+    getCurComments() {
+      let cur = this.comments[this.eventId];
+      if (!cur) {
+        cur = [];
+        this.comments[this.eventId] = cur;
+      }
+      return cur;
+    },
+    sendComment(event) {
+      let curComments = this.getCurComments();
+      let newComment = event.target[0].value.trim();
+      if (newComment != "") {
+        event.target[0].value = "";
+        curComments.push(newComment);
+        localStorage.setItem(
+          "timetable-event-comment",
+          JSON.stringify(this.comments)
+        );
+      }
+    },
+    dropComment(index) {
+      let curComments = this.getCurComments();
+      curComments.splice(index, 1);
+      localStorage.setItem(
+        "timetable-event-comment",
+        JSON.stringify(this.comments)
+      );
+    },
   },
 
   beforeMount() {
@@ -119,6 +173,10 @@ export default {
       },
     });
     document.dispatchEvent(changeHeaderLayoutEvent);
+
+    this.comments = JSON.parse(
+      localStorage.getItem("timetable-event-comment") || "{}"
+    );
   },
   watch: {
     eventInfo(elem) {
@@ -149,10 +207,9 @@ export default {
 ul {
   margin: 0;
   padding: 0;
-  height: 100vh;
 }
 .event-wrapper {
-  padding: 32px 24px 0px 24px;
+  padding: 32px 24px 64px 24px;
   height: calc(100% - 56px);
   display: flex;
   flex-direction: column;
@@ -177,5 +234,31 @@ ul {
   b {
     text-align: center;
   }
+}
+
+.comment-container {
+  width: 100%;
+  padding: 8px;
+}
+
+.comment {
+  display: block;
+  width: 100%;
+}
+
+.comment > .delete-btn {
+  display: block;
+  float: right;
+  clear: right;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+
+  cursor: pointer;
 }
 </style>
