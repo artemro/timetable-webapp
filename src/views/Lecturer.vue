@@ -99,7 +99,6 @@ export default {
 
 <style scoped>
 .lecturer-wrapper {
-<<<<<<< HEAD
     padding: 32px 24px 0px;
     display: flex;
     height: calc(100vh - 56px);
@@ -112,18 +111,6 @@ export default {
     width: 100%;
     max-width: 640px;
     align-self: flex-start;
-=======
-  padding: 32px 24px 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-}
-
-.wrapper {
-  width: 100%;
-  max-width: 640px;
->>>>>>> main
 }
 
 .lecturer-photo {

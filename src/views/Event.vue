@@ -1,31 +1,7 @@
 <template>
-<<<<<<< HEAD
-    <div class="event-wrapper">
-        <div v-if="!this.loaded" class="lds-dual-ring"></div>
-        <div v-else class="wrapper">
-            <div class="lesson-event">
-                <b>{{this.eventInfo.name}}</b>
-            </div>
-            <ul>
-                <GroupRow :eventNumber="this.eventInfo.group.number"
-                             :eventDate="this.formatDate(this.date)"
-                             :eventTime="this.DownTextFirst(this.eventInfo.start_ts, this.eventInfo.end_ts)"
-                />
-                <RoomRow v-for="room in this.eventInfo.room"
-                            :key="room.id"
-                            :room="room"
-                            @click="this.clickRoom(room.id)"
-                />
-                <LecturerRow v-for="lecturer in this.eventInfo.lecturer" 
-                            :key="lecturer.id"
-                            :lecturer="lecturer"
-                            @click="this.clickLecturer(lecturer.id)"
-                />
-            </ul>
-=======
   <div class="event-wrapper">
     <div v-if="!loaded" class="lds-dual-ring"></div>
-    <div v-else>
+    <div v-else class="wrapper">
       <div class="lesson-event">
         <b>{{ eventInfo.name }}</b>
       </div>
@@ -61,7 +37,6 @@
             delete
           </span>
           <p>{{ comment }}</p>
->>>>>>> main
         </div>
         <form @submit.prevent="sendComment">
           <textarea
@@ -77,8 +52,8 @@
           />
         </form>
       </div>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -86,110 +61,17 @@ import GroupRow from "@/components/GroupRow.vue";
 import LecturerRow from "@/components/LecturerRow.vue";
 import RoomRow from "@/components/RoomRow.vue";
 export default {
-  components: { LecturerRow, RoomRow, GroupRow },
-  data() {
-    return {
-      loaded: false,
-      eventId: this.$route.params.eventId,
-      eventInfo: {},
-      date: new Date(),
-      comments: {},
-    };
-  },
-  methods: {
-    loadEventInfo() {
-      var url = new URL(
-        `${process.env.VUE_APP_API_TIMETABLE}/timetable/event/${this.eventId}`
-      );
-      fetch(url)
-        .then((response) => response.json())
-        .then((json) => {
-          this.eventInfo = json;
-          this.loaded = true;
-        });
-    },
-    formatDate(date) {
-      this.date = new Date(this.eventInfo.start_ts.slice(0, 10));
-      if (this.date) {
-        var options = {
-          month: "long",
-          day: "numeric",
+    components: {LecturerRow, RoomRow, GroupRow},
+    data() {
+        return {
+            loaded: false,
+            eventId: this.$route.params.eventId,
+            eventInfo: {},  
+            date: new Date(),
+            comments: {},
         };
-      }
-      return date.toLocaleString("ru", options);
     },
-    DownTextFirst(stringStart, stringEnd) {
-      return stringStart.slice(11, 16) + " — " + stringEnd.slice(11, 16);
-    },
-    clickRoom(roomId) {
-      this.$router.push(`/timetable/room/${roomId}`);
-      try {
-        fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
-          method: "POST",
-          cache: "no-cache",
-          redirect: "follow",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: localStorage.getItem("marketing-id"),
-            action: "route to",
-            path_from: "/timetable",
-            path_to: "/timetable/room",
-          }),
-        });
-      } catch {
-        //Failed, skips
-      }
-    },
-    clickLecturer(lecturerId) {
-      this.$router.push(`/timetable/lecturer/${lecturerId}`);
-      try {
-        fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
-          method: "POST",
-          cache: "no-cache",
-          redirect: "follow",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            user_id: localStorage.getItem("marketing-id"),
-            action: "route to",
-            path_from: "/timetable",
-            path_to: "/timetable/lecturer",
-          }),
-        });
-      } catch {
-        //Failed, skips
-      }
-    },
-    getCurComments() {
-      let cur = this.comments[this.eventId];
-      if (!cur) {
-        cur = [];
-        this.comments[this.eventId] = cur;
-      }
-      return cur;
-    },
-    sendComment(event) {
-      let curComments = this.getCurComments();
-      let newComment = event.target[0].value.trim();
-      if (newComment != "") {
-        event.target[0].value = "";
-        curComments.push(newComment);
-        localStorage.setItem(
-          "timetable-event-comment",
-          JSON.stringify(this.comments)
-        );
-      }
-    },
-    dropComment(index) {
-      let curComments = this.getCurComments();
-      curComments.splice(index, 1);
-      localStorage.setItem(
-        "timetable-event-comment",
-        JSON.stringify(this.comments)
-      );
-    },
-  },
 
-<<<<<<< HEAD
     methods: {
         loadEventInfo() {
             var url = new URL(`${process.env.VUE_APP_API_TIMETABLE}/timetable/event/${this.eventId}`);
@@ -230,36 +112,56 @@ export default {
             } catch {
                 //Failed, skips
             }
-=======
-  beforeMount() {
-    this.loadEventInfo();
-    console.log(this.eventInfo);
-    let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
-      detail: {
-        layoutName: "back",
-      },
-    });
-    document.dispatchEvent(changeHeaderLayoutEvent);
->>>>>>> main
 
-    this.comments = JSON.parse(
-      localStorage.getItem("timetable-event-comment") || "{}"
-    );
-  },
-  watch: {
-    eventInfo(elem) {
-      let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
-        detail: {
-          layoutName: "back",
-          text: `${this.formatDate(
-            new Date(elem.start_ts.slice(0, 10))
-          )}, ${elem.start_ts.slice(11, 16)}`,
         },
-      });
-      document.dispatchEvent(changeHeaderLayoutEvent);
+        clickLecturer(lecturerId) {
+            this.$router.push(`/timetable/lecturer/${lecturerId}`);
+            try {
+                fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
+                    method: "POST",
+                    cache: "no-cache",
+                    redirect: "follow",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        user_id: localStorage.getItem("marketing-id"),
+                        action: "route to",
+                        path_from: "/timetable",
+                        path_to: "/timetable/lecturer",
+                    }),
+                });
+            } catch {
+                //Failed, skips
+            }
+        },
+        getCurComments() {
+            let cur = this.comments[this.eventId];
+            if (!cur) {
+                cur = [];
+                this.comments[this.eventId] = cur;
+            }
+            return cur;
+        },
+        sendComment(event) {
+            let curComments = this.getCurComments();
+            let newComment = event.target[0].value.trim();
+            if (newComment != "") {
+                event.target[0].value = "";
+                curComments.push(newComment);
+                localStorage.setItem(
+                "timetable-event-comment",
+                JSON.stringify(this.comments)
+                );
+            }
+        },
+        dropComment(index) {
+            let curComments = this.getCurComments();
+            curComments.splice(index, 1);
+            localStorage.setItem(
+                "timetable-event-comment",
+                JSON.stringify(this.comments)
+            );
+        },
     },
-<<<<<<< HEAD
-
     beforeMount() {
         this.loadEventInfo();
         console.log(this.eventInfo);
@@ -281,6 +183,15 @@ export default {
             document.dispatchEvent(changeHeaderLayoutEvent);
         }
     },
+    beforeUnmount() {
+        document.dispatchEvent(
+            new CustomEvent("change-main-date", {
+                detail: {
+                    date: new Date(this.eventInfo.start_ts.slice(0, 10)),
+                },
+            })
+        );
+    },
 }
 </script>
 
@@ -288,7 +199,6 @@ export default {
     ul {
         margin: 0;
         padding: 0;
-        height: 100vh;
     }
     .event-wrapper {
         padding: 32px 24px 0px 24px;
@@ -301,77 +211,42 @@ export default {
     .wrapper {
         align-self: flex-start;
     }
-=======
-  },
-  beforeUnmount() {
-    document.dispatchEvent(
-      new CustomEvent("change-main-date", {
-        detail: {
-          date: new Date(this.eventInfo.start_ts.slice(0, 10)),
-        },
-      })
-    );
-  },
-};
-</script>
 
-<style scoped>
-ul {
-  margin: 0;
-  padding: 0;
-}
-.event-wrapper {
-  padding: 32px 24px 64px 24px;
-  height: calc(100% - 56px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+    .lesson-event {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+    
+    @media (min-width: 768px) {
+        .event-wrapper {
+            max-width: 640px;
+            margin: auto;
+        } 
 
-.lds-dual-ring {
-  align-self: center;
-}
+        b {
+            text-align: center;
+        }
+    }
 
-.lesson-event {
-  font-size: 24px;
-  margin-bottom: 8px;
-}
-
-@media (min-width: 768px) {
-  .event-wrapper {
-    max-width: 640px;
-    margin: auto;
-  }
->>>>>>> main
-
-  b {
-    text-align: center;
-  }
-}
-
-.comment-container {
-  width: 100%;
-  padding: 8px;
-}
-
-.comment {
-  display: block;
-  width: 100%;
-}
-
-.comment > .delete-btn {
-  display: block;
-  float: right;
-  clear: right;
-
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-
-  cursor: pointer;
-}
+    .comment-container {
+        width: 100%;
+        padding: 8px;
+    }
+    .comment {
+        display: block;
+        width: 100%;
+    }
+    .comment > .delete-btn {
+        display: block;
+        float: right;
+        clear: right;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                        supported by Chrome, Edge, Opera and Firefox */
+        cursor: pointer;
+    }
 </style>

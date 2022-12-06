@@ -1,56 +1,32 @@
 <template>
-<<<<<<< HEAD
-    <div class="room-wrapper">
-        <div v-if="!this.loaded" class="lds-dual-ring"></div>
-        <div v-else class="wrapper">
-            <div class="location-wrapper">
-                <div class="room-location" v-if="roomInfo.building">
-                    <span class="material-symbols-sharp">location_on</span>
-                    <span class="room-info">{{roomInfo.building}}</span>
-                </div>
-                <div class="room-location" v-if="roomInfo.direction">
-                    <span class="material-symbols-sharp">explore</span>
-                    <span class="room-info">{{this.roomDirection(roomInfo.direction)}}</span>
-                </div>
-            </div>
-            <h4 class="room-header"><b>Карта этажа</b></h4>
-            <div class="map">
-                <a v-bind:href="mapLink" class="map-link">
-                    <div class="map-text">Посмотреть на карте</div>
-                </a>
-            </div>
-            <a v-bind:href="feedbackLink" class="frame-link">Сообщить о неисправности</a>
-        </div>
-=======
   <div class="room-wrapper">
-    <div class="location-wrapper">
-      <div class="room-location" v-if="roomInfo.building">
-        <span class="material-symbols-sharp">location_on</span>
-        <span class="room-info">{{ roomInfo.building }}</span>
+      <div v-if="!this.loaded" class="lds-dual-ring"></div>
+      <div v-else class="wrapper">
+          <div class="location-wrapper">
+              <div class="room-location" v-if="roomInfo.building">
+                  <span class="material-symbols-sharp">location_on</span>
+                  <span class="room-info">{{roomInfo.building}}</span>
+              </div>
+              <div class="room-location" v-if="roomInfo.direction">
+                  <span class="material-symbols-sharp">explore</span>
+                  <span class="room-info">{{this.roomDirection(roomInfo.direction)}}</span>
+              </div>   
+          </div>
+          <h4 class="room-header"><b>Карта этажа</b></h4>
+          <div class="map">
+              <router-link :to="mapLink" class="map-link">
+                 <div class="map-text">Посмотреть на карте</div>
+              </router-link>
+          </div>
+            <router-link :to="feedbackLink" class="frame-link">
+              Сообщить о неисправности
+            </router-link>
       </div>
-      <div class="room-location" v-if="roomInfo.direction">
-        <span class="material-symbols-sharp">explore</span>
-        <span class="room-info">{{
-          this.roomDirection(roomInfo.direction)
-        }}</span>
-      </div>
->>>>>>> main
-    </div>
-    <h4 class="room-header"><b>Карта этажа</b></h4>
-    <div class="map">
-      <router-link :to="mapLink" class="map-link">
-        <div class="map-text">Посмотреть на карте</div>
-      </router-link>
-    </div>
-    <router-link :to="feedbackLink" class="frame-link">
-      Сообщить о неисправности
-    </router-link>
   </div>
 </template>
 
 <script>
 export default {
-<<<<<<< HEAD
     data() {
         return {
             roomId: this.$route.params.roomId,
@@ -71,30 +47,7 @@ export default {
             if (direction === "North") return "Север (от входа налево)";
             if (direction === "South") return "Юг (от входа направо)";
         }
-=======
-  data() {
-    return {
-      roomId: this.$route.params.roomId,
-      roomInfo: {},
-    };
-  },
-  methods: {
-    loadRoomInfo() {
-      var url = new URL(
-        `${process.env.VUE_APP_API_TIMETABLE}/timetable/room/${this.roomId}`
-      );
-      fetch(url)
-        .then((response) => response.json())
-        .then((json) => {
-          this.roomInfo = json;
-        });
     },
-    roomDirection(direction) {
-      if (direction === "North") return "Север (от входа налево)";
-      if (direction === "South") return "Юг (от входа направо)";
->>>>>>> main
-    },
-  },
   mounted() {
     this.loadRoomInfo();
     let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
@@ -129,7 +82,6 @@ export default {
 
 <style scoped>
 .room-wrapper {
-<<<<<<< HEAD
     padding: 32px 24px 0px;
     display: flex;
     height: calc(100vh - 56px);
@@ -137,14 +89,6 @@ export default {
     justify-content: center;
     max-width: 640px;
     margin: 0 auto;
-=======
-  padding: 32px 24px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 640px;
-  margin: 0 auto;
->>>>>>> main
 }
 
 .wrapper {
