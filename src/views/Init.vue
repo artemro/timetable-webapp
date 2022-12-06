@@ -1,8 +1,8 @@
 <template>
-  <div class="init-background" :style="{backgroundImage: `url('${bgItem}')`}">
+  <div class="init-background" :style="{ backgroundImage: `url('${bgItem}')` }">
     <div class="container">
       <div class="init">
-        <img :src= "logoItem" :style="{backgroundColor: '#fff' }"/>
+        <img :src="logoItem" :style="{ backgroundColor: '#fff' }" />
         <h1>Добро пожаловать!</h1>
         <p>
           Наше приложение позволит получить доступ к сервисам для студентов ФФ
@@ -13,7 +13,7 @@
           class="form-select form-select-sm mb-3 group-selector"
           v-model="groupId"
         >
-          <option selected value=-1>Не выбрано</option>
+          <option selected value="-1">Не выбрано</option>
           <option
             v-for="group in groupList.items"
             :key="group.id"
@@ -41,16 +41,19 @@ export default {
       console.log("groupId:", this.groupId);
       if (this.groupId && this.groupId != "-1") {
         localStorage.setItem("timetable-group-id", this.groupId);
-          this.$router.push({name: 'timetable'});
+        this.$router.push({ name: "timetable" });
       } else {
         alert("Пожалуйста, выберите номер группы!");
       }
     },
     loadGroups() {
       var url = new URL(
-       `${process.env.VUE_APP_API_TIMETABLE}/timetable/group/`
-      ),  params = {limit: 0, offset: 0}
-      Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+          `${process.env.VUE_APP_API_TIMETABLE}/timetable/group/`
+        ),
+        params = { limit: 0, offset: 0 };
+      Object.keys(params).forEach((key) =>
+        url.searchParams.append(key, params[key])
+      );
       fetch(url)
         .then((response) => response.json())
         .then((json) => {
@@ -86,13 +89,13 @@ export default {
       })
     );
   },
-  computed:{
-    logoItem(){
+  computed: {
+    logoItem() {
       return `${process.env.VUE_APP_CDN}/app/logo/logo_ff.svg`;
     },
-    bgItem(){
-        return `${process.env.VUE_APP_CDN}/app/background.png`;
-    }
+    bgItem() {
+      return `${process.env.VUE_APP_CDN}/app/background.png`;
+    },
   },
   data() {
     return {
@@ -123,7 +126,7 @@ export default {
   width: 100%;
   height: 100%;
 }
-.container{
+.container {
   height: 100%;
 }
 h1 {
@@ -136,7 +139,8 @@ p {
   opacity: 0.6;
   box-shadow: none;
 }
-.group-selector:focus, :active {
+.group-selector:focus,
+:active {
   box-shadow: none;
   border-width: 1px;
   border-color: #ced4da;
@@ -145,11 +149,11 @@ p {
   background-color: var(--bs-primary);
   border: none;
 }
-.save-button:hover
- {
+.save-button:hover {
   opacity: 0.6;
 }
-.save-button:focus, :active{
+.save-button:focus,
+:active {
   box-shadow: none;
 }
 img {

@@ -3,12 +3,18 @@
     <div v-if="!this.loaded" class="lds-dual-ring"></div>
     <div v-else class="container">
       <div class="weekday">
-        <span class="noselect clickable" @click="changeDate({ detail: { dir: 'right' } })">
+        <span
+          class="noselect clickable"
+          @click="changeDate({ detail: { dir: 'right' } })"
+        >
           <span class="material-symbols-sharp"> arrow_back_ios </span>
           {{ yesterdayWeekdayFormated }}
         </span>
         <span class="noselect">{{ todayWeekdayFormated }}</span>
-        <span class="noselect clickable" @click="changeDate({ detail: { dir: 'left' } })">
+        <span
+          class="noselect clickable"
+          @click="changeDate({ detail: { dir: 'left' } })"
+        >
           {{ tomorrowWeekdayFormated }}
           <span class="material-symbols-sharp"> arrow_forward_ios </span>
         </span>
@@ -19,7 +25,7 @@
       <div v-else>
         <EventRow
           v-for="lesson of this.timetable"
-          :key="lesson.id" 
+          :key="lesson.id"
           :lesson="lesson"
           @click="$router.push(`/timetable/event/${lesson.id}`)"
         />
@@ -177,7 +183,7 @@ export default {
               action: () => {
                 this.loaded = false;
                 this.groupId = undefined;
-                this.groupInfo = {number: ''};
+                this.groupInfo = { number: "" };
                 this.timetable = [];
                 localStorage.removeItem("timetable-group-id");
                 localStorage.removeItem("timetable-group-info");
@@ -226,11 +232,11 @@ export default {
 <style scoped>
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
   cursor: default;
 }

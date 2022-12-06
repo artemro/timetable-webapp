@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div class="room-wrapper">
         <div v-if="!this.loaded" class="lds-dual-ring"></div>
         <div v-else class="wrapper">
@@ -20,11 +21,36 @@
             </div>
             <a v-bind:href="feedbackLink" class="frame-link">Сообщить о неисправности</a>
         </div>
+=======
+  <div class="room-wrapper">
+    <div class="location-wrapper">
+      <div class="room-location" v-if="roomInfo.building">
+        <span class="material-symbols-sharp">location_on</span>
+        <span class="room-info">{{ roomInfo.building }}</span>
+      </div>
+      <div class="room-location" v-if="roomInfo.direction">
+        <span class="material-symbols-sharp">explore</span>
+        <span class="room-info">{{
+          this.roomDirection(roomInfo.direction)
+        }}</span>
+      </div>
+>>>>>>> main
     </div>
+    <h4 class="room-header"><b>Карта этажа</b></h4>
+    <div class="map">
+      <router-link :to="mapLink" class="map-link">
+        <div class="map-text">Посмотреть на карте</div>
+      </router-link>
+    </div>
+    <router-link :to="feedbackLink" class="frame-link">
+      Сообщить о неисправности
+    </router-link>
+  </div>
 </template>
 
 <script>
 export default {
+<<<<<<< HEAD
     data() {
         return {
             roomId: this.$route.params.roomId,
@@ -45,41 +71,65 @@ export default {
             if (direction === "North") return "Север (от входа налево)";
             if (direction === "South") return "Юг (от входа направо)";
         }
-    },
-    mounted() {
-        this.loadRoomInfo();
-        let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
-            detail: {
-                layoutName: "back",
-            },
+=======
+  data() {
+    return {
+      roomId: this.$route.params.roomId,
+      roomInfo: {},
+    };
+  },
+  methods: {
+    loadRoomInfo() {
+      var url = new URL(
+        `${process.env.VUE_APP_API_TIMETABLE}/timetable/room/${this.roomId}`
+      );
+      fetch(url)
+        .then((response) => response.json())
+        .then((json) => {
+          this.roomInfo = json;
         });
-        document.dispatchEvent(changeHeaderLayoutEvent);
     },
-    watch: {
-        roomInfo(elem) {
-            let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
-                detail: {
-                    layoutName: "back",
-                    text: elem.name
-                },
-            });
-            document.dispatchEvent(changeHeaderLayoutEvent);
-        }
+    roomDirection(direction) {
+      if (direction === "North") return "Север (от входа налево)";
+      if (direction === "South") return "Юг (от входа направо)";
+>>>>>>> main
     },
-    computed: {
-        feedbackLink() {
-            return `${process.env.VUE_APP_FEEDBACK_FORM}`;
-        }, 
-        mapLink() {
-            return `${process.env.VUE_APP_CDN}/app/map`;
-        }, 
-    }
-}
+  },
+  mounted() {
+    this.loadRoomInfo();
+    let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
+      detail: {
+        layoutName: "back",
+      },
+    });
+    document.dispatchEvent(changeHeaderLayoutEvent);
+  },
+  watch: {
+    roomInfo(elem) {
+      let changeHeaderLayoutEvent = new CustomEvent("change-header-layout", {
+        detail: {
+          layoutName: "back",
+          text: elem.name,
+        },
+      });
+      document.dispatchEvent(changeHeaderLayoutEvent);
+    },
+  },
+  computed: {
+    feedbackLink() {
+      return `/apps/browser#${process.env.VUE_APP_FEEDBACK_FORM}?url=${window.location.href}`;
+    },
+    mapLink() {
+      return `/apps/browser#${process.env.VUE_APP_CDN}/app/map/`;
+    },
+  },
+};
 </script>
 
 
 <style scoped>
 .room-wrapper {
+<<<<<<< HEAD
     padding: 32px 24px 0px;
     display: flex;
     height: calc(100vh - 56px);
@@ -87,6 +137,14 @@ export default {
     justify-content: center;
     max-width: 640px;
     margin: 0 auto;
+=======
+  padding: 32px 24px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 640px;
+  margin: 0 auto;
+>>>>>>> main
 }
 
 .wrapper {
@@ -94,87 +152,87 @@ export default {
 }
 
 .room-header {
-    align-self: flex-start;
+  align-self: flex-start;
 }
 
 .location-wrapper {
-    margin-bottom: 16px;
-    align-self: flex-start;
+  margin-bottom: 16px;
+  align-self: flex-start;
 }
 
 .room-location {
-    align-self: flex-start;
-    display: flex;
-    height: 30px;
-    margin-bottom: 8px;
-    width: 100%;
-    align-items: center;
+  align-self: flex-start;
+  display: flex;
+  height: 30px;
+  margin-bottom: 8px;
+  width: 100%;
+  align-items: center;
 }
 
 .room-info {
-    padding-left: 12px;
+  padding-left: 12px;
 }
 
 .map {
-    margin: 16px auto 32px;
-    width: 300px;
-    height: 150px;
-    background-image: url("../assets/map.png"); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 2;
+  margin: 16px auto 32px;
+  width: 300px;
+  height: 150px;
+  background-image: url("../assets/map.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
 }
 
 .map::before {
-    content: "";
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 150px;
-    background-color: #00004B;
-    opacity: 0.6;
-    border-radius: 20px;
-    z-index: 1;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 150px;
+  background-color: #00004b;
+  opacity: 0.6;
+  border-radius: 20px;
+  z-index: 1;
 }
 
 .map-link {
-    position: relative;
-    z-index: 3;
-    display: inline-block;
-    width: 300px;
-    height: 150px;
-    font-weight: bold;
-    font-size: 24px;
-    text-align: center;
-    text-decoration: none;
-    color: white;
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+  width: 300px;
+  height: 150px;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+  text-decoration: none;
+  color: white;
 }
 
 .map-text {
-    margin: auto;
-    width: 150px;
-    line-height: 26px;
-    height: 52px;
-    position: relative;
-    top: calc(50% - 26px);
-    text-align: center;
+  margin: auto;
+  width: 150px;
+  line-height: 26px;
+  height: 52px;
+  position: relative;
+  top: calc(50% - 26px);
+  text-align: center;
 }
 .frame-link {
-    display: inline-block;
-    margin: 0 auto 88px;
-    background-color:  white;
-    text-decoration: none;
-    color: rgba(0, 0, 75, 0.8);
-    padding: 8px 16px;
-    border-radius: 16px;
-    max-width: 330px;
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    border: 3px solid var(--bs-primary-80);
-} 
+  display: inline-block;
+  margin: 0 auto 88px;
+  background-color: white;
+  text-decoration: none;
+  color: rgba(0, 0, 75, 0.8);
+  padding: 8px 16px;
+  border-radius: 16px;
+  max-width: 330px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  border: 3px solid var(--bs-primary-80);
+}
 </style>
