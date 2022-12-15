@@ -37,7 +37,7 @@
       </div>
       <div class="frame-wrapper">
         <router-link :to="feedbackLink" class="frame-link"
-          >Сообщить о проблеме</router-link
+          >Написать жалобу</router-link
         >
       </div>
     </div>
@@ -101,12 +101,14 @@ export default {
 .lecturer-wrapper {
   padding: 32px 24px 0px;
   display: flex;
+  height: calc(100vh - 56px);
   justify-content: center;
   align-items: center;
   margin: 0 auto;
 }
 
 .wrapper {
+  align-self: flex-start;
   width: 100%;
   max-width: 640px;
 }

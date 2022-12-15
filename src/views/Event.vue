@@ -1,7 +1,7 @@
 <template>
   <div class="event-wrapper">
     <div v-if="!loaded" class="lds-dual-ring"></div>
-    <div v-else>
+    <div v-else class="wrapper">
       <div class="lesson-event">
         <b>{{ eventInfo.name }}</b>
       </div>
@@ -84,8 +84,8 @@ export default {
         });
     },
     formatDate(date) {
-      this.date = new Date(this.eventInfo.start_ts.slice(0, 10));
-      if (this.date) {
+      date = new Date(this.eventInfo.start_ts.slice(0, 10));
+      if (date) {
         var options = {
           month: "long",
           day: "numeric",
@@ -210,14 +210,14 @@ ul {
 }
 .event-wrapper {
   padding: 32px 24px 64px 24px;
-  height: calc(100% - 56px);
+  height: calc(100vh - 56px);
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
-.lds-dual-ring {
-  align-self: center;
+.wrapper {
+  align-self: flex-start;
 }
 
 .lesson-event {

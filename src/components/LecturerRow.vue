@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="event-item-icon" v-else>
-      <div>
+      <div class="noselect">
         <span class="material-symbols-sharp">person</span>
       </div>
     </div>

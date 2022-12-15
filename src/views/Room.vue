@@ -1,26 +1,29 @@
 <template>
   <div class="room-wrapper">
-    <div class="location-wrapper">
-      <div class="room-location" v-if="roomInfo.building">
-        <span class="material-symbols-sharp">location_on</span>
-        <span class="room-info">{{ roomInfo.building }}</span>
+    <div v-if="!this.loaded" class="lds-dual-ring"></div>
+    <div v-else class="wrapper">
+      <div class="location-wrapper">
+        <div class="room-location" v-if="roomInfo.building">
+          <span class="material-symbols-sharp noselect">location_on</span>
+          <span class="room-info">{{ roomInfo.building }}</span>
+        </div>
+        <div class="room-location" v-if="roomInfo.direction">
+          <span class="material-symbols-sharp noselect">explore</span>
+          <span class="room-info">{{
+            this.roomDirection(roomInfo.direction)
+          }}</span>
+        </div>
       </div>
-      <div class="room-location" v-if="roomInfo.direction">
-        <span class="material-symbols-sharp">explore</span>
-        <span class="room-info">{{
-          this.roomDirection(roomInfo.direction)
-        }}</span>
+      <h4 class="room-header"><b>Карта этажа</b></h4>
+      <div class="map">
+        <router-link :to="mapLink" class="map-link">
+          <div class="map-text">Посмотреть на карте</div>
+        </router-link>
       </div>
-    </div>
-    <h4 class="room-header"><b>Карта этажа</b></h4>
-    <div class="map">
-      <router-link :to="mapLink" class="map-link">
-        <div class="map-text">Посмотреть на карте</div>
+      <router-link :to="feedbackLink" class="frame-link">
+        Сообщить о неисправности
       </router-link>
     </div>
-    <router-link :to="feedbackLink" class="frame-link">
-      Сообщить о неисправности
-    </router-link>
   </div>
 </template>
 
@@ -30,6 +33,7 @@ export default {
     return {
       roomId: this.$route.params.roomId,
       roomInfo: {},
+      loaded: false,
     };
   },
   methods: {
@@ -41,6 +45,7 @@ export default {
         .then((response) => response.json())
         .then((json) => {
           this.roomInfo = json;
+          this.loaded = true;
         });
     },
     roomDirection(direction) {
@@ -84,10 +89,18 @@ export default {
 .room-wrapper {
   padding: 32px 24px 0px;
   display: flex;
-  flex-direction: column;
+  height: calc(100vh - 56px);
   align-items: center;
+  justify-content: center;
   max-width: 640px;
   margin: 0 auto;
+}
+
+.wrapper {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .room-header {

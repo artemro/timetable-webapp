@@ -1,6 +1,6 @@
 <template>
   <li class="event-item noselect">
-    <div class="event-item-icon">
+    <div class="event-item-icon noselect">
       <span class="material-symbols-sharp">location_on</span>
     </div>
     <div class="event-item-information">
