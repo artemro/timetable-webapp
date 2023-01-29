@@ -5,6 +5,7 @@ const routes = [
     path: '/timetable',
     name: 'timetable',
     component: () => import('../views/Timetable.vue'),
+    meta: { requiresGroupSelection: true }
   },
   {
     path: '/timetable/init',
@@ -31,6 +32,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory('/'),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  if (
+    to.meta.requiresGroupSelection && (
+      localStorage.getItem('timetable-group-id') === null ||
+      localStorage.getItem('timetable-group-id') === undefined ||
+      localStorage.getItem('timetable-group-id') === "-1")
+    )
+    next({ name: 'init' });
+  else next();
 })
 
 export default router;
