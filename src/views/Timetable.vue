@@ -227,8 +227,18 @@ export default {
     this.groupId = localStorage.getItem("timetable-group-id");
     this.loadGroupInfo();
     document.dispatchEvent(new CustomEvent("sync-date"));
-    // обработка свайпов
+
+    // Обработка свайпов
     document.addEventListener("swipe", this.changeDate);
+
+    // Обработка стрелочек
+    window.addEventListener('keydown', (e) => {
+      if (e.key == 'ArrowRight')
+        this.changeDate({ detail: { dir: 'left' } })  // Ой не спрашивайте, почему право это лево....
+      else if (e.key == 'ArrowLeft')
+        this.changeDate({ detail: { dir: 'right' } })
+    });
+
 
     // Загружаем кэш в память
     this.loadTimetableCache();
