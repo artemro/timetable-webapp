@@ -1,7 +1,6 @@
 <template>
   <div class="timetable">
-    <div v-if="!this.loaded" class="lds-dual-ring"></div>
-    <div v-else class="container">
+    <div class="container">
       <div class="weekday">
         <span
           class="noselect clickable"
@@ -19,17 +18,20 @@
           <span class="material-symbols-sharp"> arrow_forward_ios </span>
         </span>
       </div>
-      <div class="no-events" v-if="!this.timetable.length">
-        пары отсутствуют
-      </div>
-      <div v-else>
-        <EventRow
-          v-for="lesson of this.timetable"
-          :key="lesson.id"
-          :lesson="lesson"
-          @click="$router.push(`/timetable/event/${lesson.id}`)"
-        />
-      </div>
+      <div v-if="!this.loaded" class="lds-dual-ring"></div>
+      <template v-else>
+        <div class="no-events" v-if="!this.timetable.length">
+          Свободный день!
+        </div>
+        <div v-else>
+          <EventRow
+            v-for="lesson of this.timetable"
+            :key="lesson.id"
+            :lesson="lesson"
+            @click="$router.push(`/timetable/event/${lesson.id}`)"
+          />
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -74,8 +76,11 @@ export default {
           .then((response) => response.json())
           .then((json) => {
             this.groupInfo = json;
-            if (this.groupInfo.number === null ||this.groupInfo.number === undefined) {
-              this.reinitTimetable()
+            if (
+              this.groupInfo.number === null ||
+              this.groupInfo.number === undefined
+            ) {
+              this.reinitTimetable();
               return;
             }
             localStorage.setItem("timetable-group-info", JSON.stringify(json));
@@ -194,7 +199,7 @@ export default {
           menu: [
             {
               name: "Изменить группу",
-              action: this.reinitTimetable
+              action: this.reinitTimetable,
             },
           ],
         },
@@ -293,5 +298,10 @@ export default {
 }
 .weekday .material-symbols-sharp {
   font-size: 0.8rem;
+}
+
+.lds-dual-ring {
+  align-self: center;
+  margin: 30% auto;
 }
 </style>
