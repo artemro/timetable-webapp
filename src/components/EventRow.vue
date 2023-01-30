@@ -28,21 +28,22 @@ export default {
   },
   methods: {
     formatLecturer(info) {
-      if (!info.middle_name) return `${info.last_name} ${info.first_name[0]}. `;
-      return `${info.last_name}&nbsp;${info.first_name[0]}.&nbsp;${info.middle_name[0]}. `;
+      if (!info.middle_name) return `${info.last_name} ${info.first_name[0]}.`;
+      return `${info.last_name}&nbsp;${info.first_name[0]}.&nbsp;${info.middle_name[0]}.`;
     },
     formatInfo(lecturer, room) {
-      let total = "";
+      let lecturers = [];
+      let rooms = [];
 
-      room.forEach((element) => {
-        total += `${element.name} `;
-      });
-      if (lecturer.length && room.length) total += `&bull;&ensp;`;
-      lecturer.forEach((element) => {
-        total += `${this.formatLecturer(element)}`;
-      });
-
-      return total;
+      room.forEach((e) => rooms.push(e.name));
+      lecturer.forEach((e) => lecturers.push(this.formatLecturer(e)));
+      lecturers = lecturers.join(', ')
+      rooms = rooms.join(', ')
+      if (lecturer.length && room.length) {
+        return `${lecturers} &bull;&ensp;${rooms}`
+      } else {
+        return `${lecturers}${rooms}`
+      }
     },
   },
 };
