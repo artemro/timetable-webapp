@@ -74,6 +74,10 @@ export default {
           .then((response) => response.json())
           .then((json) => {
             this.groupInfo = json;
+            if (this.groupInfo.number === null ||this.groupInfo.number === undefined) {
+              this.reinitTimetable()
+              return;
+            }
             localStorage.setItem("timetable-group-info", JSON.stringify(json));
             document.dispatchEvent(this.headerEvent);
           });
@@ -148,6 +152,16 @@ export default {
         new CustomEvent("change-main-date", { detail: { date: nextDate } })
       );
     },
+    reinitTimetable() {
+      this.loaded = false;
+      this.groupId = undefined;
+      this.groupInfo = { number: "" };
+      this.timetable = [];
+      localStorage.removeItem("timetable-group-id");
+      localStorage.removeItem("timetable-group-info");
+      localStorage.removeItem("timetable-cache");
+      this.$router.push("/timetable/init");
+    },
   },
   computed: {
     todayWeekdayFormated() {
@@ -180,16 +194,7 @@ export default {
           menu: [
             {
               name: "Изменить группу",
-              action: () => {
-                this.loaded = false;
-                this.groupId = undefined;
-                this.groupInfo = { number: "" };
-                this.timetable = [];
-                localStorage.removeItem("timetable-group-id");
-                localStorage.removeItem("timetable-group-info");
-                localStorage.removeItem("timetable-cache");
-                this.$router.push("/timetable/init");
-              },
+              action: this.reinitTimetable
             },
           ],
         },
