@@ -4,28 +4,28 @@ const routes = [
   {
     path: '/timetable',
     name: 'timetable',
-    component: () => import('../views/Timetable.vue'),
+    component: () => import('../views/TimetableView.vue'),
     meta: { requiresGroupSelection: true }
   },
   {
     path: '/timetable/init',
     name: 'init',
-    component: () => import('../views/Init.vue')
+    component: () => import('../views/InitView.vue')
   },
   {
     path: '/timetable/event/:eventId',
     name: 'Event',
-    component: () => import('../views/Event.vue')
+    component: () => import('../views/EventView.vue')
   },
   {
     path: '/timetable/lecturer/:lecturerId',
     name: 'Lecturer',
-    component: () => import('../views/Lecturer.vue')
+    component: () => import('../views/LecturerView.vue')
   },
   {
     path: '/timetable/room/:roomId',
     name: 'Room',
-    component: () => import('../views/Room.vue')
+    component: () => import('../views/RoomView.vue')
   }
 ]
 

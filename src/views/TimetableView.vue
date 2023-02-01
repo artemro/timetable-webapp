@@ -43,7 +43,6 @@ import { fetchTimetable } from "@/utils/FetchTimetable.js";
 import { getMonday, isToday } from "@/utils/Dates.js";
 
 export default {
-  name: "Timetable",
   data() {
     return {
       loaded: true,
