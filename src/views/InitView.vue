@@ -120,8 +120,7 @@ export default {
 <style scoped>
 .init-background {
     width: 100%;
-    height: 100vh;
-    /* background-image: url(v-bind(bgItem)); */
+    flex: 1;
     background-repeat: repeat;
     background-size: cover;
     background-clip: padding-box;

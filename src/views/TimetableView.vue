@@ -52,7 +52,7 @@ import { getMonday, isToday } from '@/utils/Dates.js';
 
 export default {
     components: {
-        EventRow: EventRow,
+        EventRow,
     },
     data() {
         return {

@@ -14,7 +14,7 @@ export async function fetchTimetable(time_start, time_end, group_id) {
             end: time_end_str,
             limit: 0,
             offset: 0,
-            group_id: group_id,
+            group_id,
         };
     Object.keys(params).forEach(key =>
         url.searchParams.append(key, params[key]),
