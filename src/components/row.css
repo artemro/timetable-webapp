@@ -10,7 +10,7 @@
     align-items: center;
 }
 
-.event-item:nth-child(n+3) {
+.event-item:nth-child(n + 3) {
     margin-top: 16px;
     background-color: rgba(0, 0, 0, 0.06);
 }
@@ -19,7 +19,7 @@
     margin-bottom: 80px;
 }
 
-.event-item:nth-child(n+3):hover {
+.event-item:nth-child(n + 3):hover {
     background: var(--bs-primary-20);
 }
 
@@ -31,11 +31,11 @@
     justify-content: center;
 }
 
-.event-item-header:nth-of-type(n+3) {
+.event-item-header:nth-of-type(n + 3) {
     font-weight: bold;
 }
 
-.event-item-information:nth-of-type(n+3) {
+.event-item-information:nth-of-type(n + 3) {
     font-size: 16px;
 }
 

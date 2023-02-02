@@ -4,7 +4,7 @@ export function getMonday(d) {
      */
     let dt = new Date(d);
     var day = dt.getDay(),
-        diff = dt.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        diff = dt.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
     return new Date(dt.setDate(diff));
 }
 
@@ -30,5 +30,5 @@ export function isToday(d, today) {
      */
     let d1 = getIsoDate(d),
         d2 = getIsoDate(today);
-    return d1 == d2;
+    return d1 === d2;
 }

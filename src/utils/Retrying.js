@@ -18,7 +18,10 @@ export default function retry(callback, times, interval = 1000) {
         try {
             callback();
         } catch (error) {
-            console.error(`Call failed, retrying... (${times} attempts left)`, error);
+            console.error(
+                `Call failed, retrying... (${times} attempts left)`,
+                error,
+            );
             setTimeout(() => retry(callback, times - 1, interval), interval);
         }
     }
