@@ -1,44 +1,40 @@
 <template>
-    <div class="init-background">
-        <div class="container">
-            <div class="init">
-                <img
-                    :src="logoItem"
-                    :style="{ backgroundColor: '#fff' }"
-                />
-                <h1>Добро пожаловать!</h1>
-                <p>
-                    Наше приложение позволит получить доступ к сервисам для
-                    студентов ФФ МГУ!
-                </p>
-                <p>Для просмотра расписания выберите свою группу</p>
-                <select
-                    v-model="groupId"
-                    class="form-select form-select-sm mb-3 group-selector"
-                >
-                    <option
-                        selected
-                        value="-1"
-                    >
-                        Не выбрано
-                    </option>
-                    <option
-                        v-for="group in groupList.items"
-                        :key="group.id"
-                        :value="group.id"
-                    >
-                        {{ group.number }}
-                    </option>
-                </select>
-                <button
-                    type="button"
-                    class="btn btn-primary btn-lg save-button"
-                    @click="saveGroup"
-                >
-                    Сохранить
-                </button>
-            </div>
-        </div>
+    <div class="init">
+        <img
+            :src="logoItem"
+            :style="{ backgroundColor: '#fff' }"
+        />
+        <h1>Добро пожаловать!</h1>
+        <p>
+            Наше приложение позволит получить доступ к сервисам для студентов ФФ
+            МГУ!
+        </p>
+        <p>Для просмотра расписания выберите свою группу</p>
+        <select
+            v-model="groupId"
+            class="form-select form-select-sm mb-3 group-selector"
+        >
+            <option
+                selected
+                value="-1"
+            >
+                Не выбрано
+            </option>
+            <option
+                v-for="group in groupList.items"
+                :key="group.id"
+                :value="group.id"
+            >
+                {{ group.number }}
+            </option>
+        </select>
+        <button
+            type="button"
+            class="btn btn-primary btn-lg save-button"
+            @click="saveGroup"
+        >
+            Сохранить
+        </button>
     </div>
 </template>
 
@@ -113,13 +109,6 @@ export default {
 </script>
 
 <style scoped>
-.init-background {
-    width: 100%;
-    flex: 1;
-    background-repeat: repeat;
-    background-size: cover;
-    background-clip: padding-box;
-}
 .init {
     display: flex;
     flex-direction: column;
@@ -129,9 +118,6 @@ export default {
     padding-bottom: 66px;
     gap: 1em;
     width: 100%;
-    height: 100%;
-}
-.container {
     height: 100%;
 }
 h1 {
