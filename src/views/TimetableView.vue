@@ -54,15 +54,13 @@ export default {
     components: {
         EventRow,
     },
-    data() {
-        return {
-            loaded: true,
-            date: new Date(),
-            groupId: undefined,
-            groupInfo: { number: '' },
-            timetable: [],
-        };
-    },
+    data: () => ({
+        loaded: true,
+        date: new Date(),
+        groupId: undefined,
+        groupInfo: { number: '' },
+        timetable: [],
+    }),
     computed: {
         todayWeekdayFormated() {
             const wdname = [
@@ -181,6 +179,10 @@ export default {
             }
         },
         loadTimetableOnDate(date) {
+            this.groupId =
+                this.groupId ||
+                JSON.parse(localStorage.getItem('timetable-group-info')).id ||
+                localStorage.getItem('timetable-group-id');
             var time_start = new Date(date);
             var time_end = new Date(date);
             time_end.setDate(time_start.getDate() + 1);
