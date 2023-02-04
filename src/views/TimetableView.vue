@@ -48,7 +48,7 @@
 import EventRow from '@/components/EventRow.vue';
 import retry from '@/utils/Retrying.js';
 import { fetchTimetable } from '@/utils/FetchTimetable.js';
-import { getMonday, isToday } from '@/utils/Dates.js';
+import { getMonday, isToday, getIsoDate } from '@/utils/Dates.js';
 
 export default {
     components: {
@@ -100,10 +100,28 @@ export default {
         },
     },
     watch: {
-        date(newDate) {
+        date(newDate, oldDate) {
             this.loaded = false;
             // 5 раз с интервалом в 1 секунду попробуй скачать расписание
             this.loadTimetableOnDate(newDate);
+
+            fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
+                method: 'POST',
+                cache: 'no-cache',
+                redirect: 'follow',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: localStorage.getItem('marketing-id'),
+                    action: 'timetable change date',
+                    path_from: '/timetable',
+                    path_to: '/timetable',
+                    additional_data: JSON.stringify({
+                        date: getIsoDate(newDate),
+                        prev_date: getIsoDate(oldDate),
+                        group: this.groupInfo || { id: this.groupId } || null,
+                    }),
+                }),
+            });
         },
     },
     beforeMount() {

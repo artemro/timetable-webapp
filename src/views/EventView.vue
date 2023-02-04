@@ -77,6 +77,7 @@
 import GroupRow from '@/components/GroupRow.vue';
 import LecturerRow from '@/components/LecturerRow.vue';
 import RoomRow from '@/components/RoomRow.vue';
+
 export default {
     components: { LecturerRow, RoomRow, GroupRow },
     data() {
@@ -104,7 +105,6 @@ export default {
             document.dispatchEvent(changeHeaderLayoutEvent);
         },
     },
-
     beforeMount() {
         this.loadEventInfo();
         console.log(this.eventInfo);
@@ -155,41 +155,9 @@ export default {
         },
         clickRoom(roomId) {
             this.$router.push(`/timetable/room/${roomId}`);
-            try {
-                fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
-                    method: 'POST',
-                    cache: 'no-cache',
-                    redirect: 'follow',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: localStorage.getItem('marketing-id'),
-                        action: 'route to',
-                        path_from: '/timetable',
-                        path_to: '/timetable/room',
-                    }),
-                });
-            } catch {
-                //Failed, skips
-            }
         },
         clickLecturer(lecturerId) {
             this.$router.push(`/timetable/lecturer/${lecturerId}`);
-            try {
-                fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
-                    method: 'POST',
-                    cache: 'no-cache',
-                    redirect: 'follow',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: localStorage.getItem('marketing-id'),
-                        action: 'route to',
-                        path_from: '/timetable',
-                        path_to: '/timetable/lecturer',
-                    }),
-                });
-            } catch {
-                //Failed, skips
-            }
         },
         getCurComments() {
             let cur = this.comments[this.eventId];

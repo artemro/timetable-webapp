@@ -34,16 +34,28 @@ const router = createRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
-    console.log(to);
+router.beforeEach((to, from) => {
+    // Log to marketing API
+    fetch(`${process.env.VUE_APP_API_MARKETING}/action`, {
+        method: 'POST',
+        cache: 'no-cache',
+        redirect: 'follow',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            user_id: localStorage.getItem('marketing-id'),
+            action: 'route to',
+            path_from: from.fullPath || null,
+            path_to: to.fullPath || null,
+        }),
+    }).catch();
+
     if (
         to.meta.requiresGroupSelection &&
         (localStorage.getItem('timetable-group-id') === null ||
             localStorage.getItem('timetable-group-id') === undefined ||
             localStorage.getItem('timetable-group-id') === '-1')
     )
-        next({ name: 'init' });
-    else next();
+        return { name: 'init' };
 });
 
 export default router;
