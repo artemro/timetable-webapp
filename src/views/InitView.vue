@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="init-background"
-        :style="{ backgroundImage: `url('${bgItem}')` }"
-    >
+    <div class="init-background">
         <div class="container">
             <div class="init">
                 <img
@@ -66,10 +63,8 @@ export default {
         document.dispatchEvent(
             new CustomEvent('change-header-layout', {
                 detail: {
-                    layoutName: 'calendar',
+                    layoutName: 'plain',
                     text: 'Твой физфак!',
-                    disabled: true,
-                    menu: [],
                 },
             }),
         );
