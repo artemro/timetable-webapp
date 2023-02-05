@@ -197,8 +197,8 @@ ul {
     padding: 0;
 }
 .event-wrapper {
-    padding: 32px 24px 64px 24px;
-    height: calc(100vh - 56px);
+    padding: 10px 24px;
+    min-height: calc(100vh - 56px * 2);
     display: flex;
     align-items: center;
     justify-content: center;

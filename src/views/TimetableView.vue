@@ -1,46 +1,42 @@
 <template>
-    <div class="timetable">
-        <div class="container">
-            <div class="weekday">
-                <span
-                    class="noselect clickable"
-                    @click="changeDate({ detail: { dir: 'right' } })"
-                >
-                    <span class="material-symbols-sharp"> arrow_back_ios </span>
-                    {{ yesterdayWeekdayFormated }}
-                </span>
-                <span class="noselect">{{ todayWeekdayFormated }}</span>
-                <span
-                    class="noselect clickable"
-                    @click="changeDate({ detail: { dir: 'left' } })"
-                >
-                    {{ tomorrowWeekdayFormated }}
-                    <span class="material-symbols-sharp">
-                        arrow_forward_ios
-                    </span>
-                </span>
-            </div>
-            <div
-                v-if="!loaded"
-                class="lds-dual-ring"
-            ></div>
-            <template v-else>
-                <div
-                    v-if="!timetable.length"
-                    class="no-events"
-                >
-                    Свободный день!
-                </div>
-                <div v-else>
-                    <EventRow
-                        v-for="lesson of timetable"
-                        :key="lesson.id"
-                        :lesson="lesson"
-                        @click="$router.push(`/timetable/event/${lesson.id}`)"
-                    />
-                </div>
-            </template>
+    <div class="container">
+        <div class="weekday">
+            <span
+                class="noselect clickable"
+                @click="changeDate({ detail: { dir: 'right' } })"
+            >
+                <span class="material-symbols-sharp"> arrow_back_ios </span>
+                {{ yesterdayWeekdayFormated }}
+            </span>
+            <span class="noselect">{{ todayWeekdayFormated }}</span>
+            <span
+                class="noselect clickable"
+                @click="changeDate({ detail: { dir: 'left' } })"
+            >
+                {{ tomorrowWeekdayFormated }}
+                <span class="material-symbols-sharp"> arrow_forward_ios </span>
+            </span>
         </div>
+        <div
+            v-if="!loaded"
+            class="lds-dual-ring"
+        ></div>
+        <template v-else>
+            <div
+                v-if="!timetable.length"
+                class="no-events"
+            >
+                Свободный день!
+            </div>
+            <div v-else>
+                <EventRow
+                    v-for="lesson of timetable"
+                    :key="lesson.id"
+                    :lesson="lesson"
+                    @click="$router.push(`/timetable/event/${lesson.id}`)"
+                />
+            </div>
+        </template>
     </div>
 </template>
 
@@ -328,16 +324,7 @@ export default {
     justify-content: flex-start;
     height: 100%;
     padding-top: 8px;
-}
-
-.timetable {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: calc(100vh - 56px);
-    width: auto;
-    overflow: scroll;
+    min-height: calc(100vh - 56px * 2);
 }
 
 .weekday {

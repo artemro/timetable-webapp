@@ -116,9 +116,9 @@ export default {
 
 <style scoped>
 .lecturer-wrapper {
-    padding: 32px 24px 0px;
+    padding: 10px 24px;
     display: flex;
-    height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px * 2);
     justify-content: center;
     align-items: center;
     margin: 0 auto;
