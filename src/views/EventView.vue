@@ -121,7 +121,7 @@ export default {
     },
     beforeUnmount() {
         document.dispatchEvent(
-            new CustomEvent('change-main-date', {
+            new CustomEvent('change-date', {
                 detail: {
                     date: new Date(this.eventInfo.start_ts.slice(0, 10)),
                 },

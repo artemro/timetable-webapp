@@ -121,22 +121,28 @@ export default {
         },
     },
     beforeMount() {
+        document.addEventListener('change-date', e => {
+            this.date = e.detail.date;
+        });
         document.addEventListener(
-            'change-date',
-            e => (this.date = e.detail.date),
+            'sync-date-response',
+            this.syncDateResponseHandler,
         );
+        document.addEventListener('swipe', this.changeDate);
     },
-    updated() {
-        document.dispatchEvent(this.headerEvent);
+    beforeUnmount() {
+        document.removeEventListener(
+            'sync-date-response',
+            this.syncDateResponseHandler,
+        );
+        document.removeEventListener('swipe', this.changeDate);
     },
     mounted() {
         document.dispatchEvent(this.headerEvent);
         this.groupId = localStorage.getItem('timetable-group-id');
         this.loadGroupInfo();
-        document.dispatchEvent(new CustomEvent('sync-date'));
 
-        // Обработка свайпов
-        document.addEventListener('swipe', this.changeDate);
+        document.dispatchEvent(new CustomEvent('sync-date'));
 
         // Обработка стрелочек
         window.addEventListener('keydown', e => {
@@ -151,9 +157,6 @@ export default {
 
         // Загружаем кэш в память
         this.loadTimetableCache();
-    },
-    beforeUnmount() {
-        document.removeEventListener('swipe', this.changeDate);
     },
     methods: {
         loadGroupInfo() {
@@ -272,7 +275,7 @@ export default {
             this.loaded = false;
             this.timetable = [];
             document.dispatchEvent(
-                new CustomEvent('change-main-date', {
+                new CustomEvent('change-date', {
                     detail: { date: nextDate },
                 }),
             );
@@ -286,6 +289,9 @@ export default {
             localStorage.removeItem('timetable-group-info');
             localStorage.removeItem('timetable-cache');
             this.$router.push('/timetable/init');
+        },
+        syncDateResponseHandler(e) {
+            this.date = e.detail.date;
         },
     },
 };
